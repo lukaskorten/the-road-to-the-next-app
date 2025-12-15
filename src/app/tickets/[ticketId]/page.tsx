@@ -1,3 +1,7 @@
+import Link from 'next/link';
+import { ticketsPath } from '@/app/paths';
+import { Placeholder } from '@/components/placeholder';
+import { buttonVariants } from '@/components/ui/button';
 import { initialTickets } from '@/data';
 
 type TicketPageProps = {
@@ -9,7 +13,19 @@ export default async function TicketPage({ params }: TicketPageProps) {
   const ticket = initialTickets.find(({ id }) => id === ticketId);
 
   if (!ticket) {
-    return <p>Ticket not found</p>;
+    return (
+      <Placeholder
+        label="Ticket not found"
+        button={
+          <Link
+            href={ticketsPath()}
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            Go to Tickets
+          </Link>
+        }
+      />
+    );
   }
 
   return (
