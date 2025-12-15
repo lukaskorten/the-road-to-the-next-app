@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { initialTickets } from '@/data';
 
 function CheckIcon() {
@@ -79,6 +80,8 @@ export default function TicketsPage() {
         <h2 className="text-3xl font-bold tracking-tight">TicketsPage</h2>
         <p className="text-sm ">All your tickets at one place</p>
       </div>
+
+      <Separator />
 
       <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
         {initialTickets.map((ticket) => (
