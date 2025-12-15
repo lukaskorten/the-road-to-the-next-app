@@ -4,7 +4,7 @@ type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
 };
 
-const TicketPage = async ({ params }: TicketPageProps) => {
+export default async function TicketPage({ params }: TicketPageProps) {
   const { ticketId } = await params;
   const ticket = initialTickets.find(({ id }) => id === ticketId);
 
@@ -18,6 +18,4 @@ const TicketPage = async ({ params }: TicketPageProps) => {
       <p className="text-sm">{ticket.content}</p>
     </div>
   );
-};
-
-export default TicketPage;
+}

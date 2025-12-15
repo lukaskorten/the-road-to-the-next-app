@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ticketsPath } from './paths';
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <div className="flex-1 flex flex-col gap-y-8">
       <div>
@@ -16,6 +16,4 @@ const HomePage = () => {
       </div>
     </div>
   );
-};
-
-export default HomePage;
+}
