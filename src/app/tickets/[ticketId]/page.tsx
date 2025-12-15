@@ -1,7 +1,4 @@
-import Link from 'next/link';
-import { ticketsPath } from '@/app/paths';
-import { Placeholder } from '@/components/placeholder';
-import { buttonVariants } from '@/components/ui/button';
+import { notFound } from 'next/navigation';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
 import { getTicket } from '@/features/ticket/queries/get-ticket';
 
@@ -14,19 +11,7 @@ export default async function TicketPage({ params }: TicketPageProps) {
   const ticket = await getTicket(ticketId);
 
   if (!ticket) {
-    return (
-      <Placeholder
-        label="Ticket not found"
-        button={
-          <Link
-            href={ticketsPath()}
-            className={buttonVariants({ variant: 'outline' })}
-          >
-            Go to Tickets
-          </Link>
-        }
-      />
-    );
+    notFound();
   }
 
   return (
