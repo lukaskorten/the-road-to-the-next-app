@@ -3,6 +3,7 @@ import { ticketsPath } from '@/app/paths';
 import { Placeholder } from '@/components/placeholder';
 import { buttonVariants } from '@/components/ui/button';
 import { initialTickets } from '@/data';
+import { TicketItem } from '@/features/ticket/components/ticket-item';
 
 type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
@@ -29,9 +30,8 @@ export default async function TicketPage({ params }: TicketPageProps) {
   }
 
   return (
-    <div>
-      <h2 className="text-lg">{ticket.title}</h2>
-      <p className="text-sm">{ticket.content}</p>
+    <div className="flex justify-center animate-fade-from-top">
+      <TicketItem ticket={ticket} isDetail />
     </div>
   );
 }
