@@ -3,8 +3,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@/generated/prisma/client';
 
 function createPrismaClinet() {
-  const connectionString = process.env.DIRECT_URL ?? '';
-  const adapter = new PrismaPg({ connectionString });
+  const adapter = new PrismaPg({ connectionString: process.env.DIRECT_URL! });
   return new PrismaClient({ adapter });
 }
 
