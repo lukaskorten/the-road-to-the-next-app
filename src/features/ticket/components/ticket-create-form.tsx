@@ -1,13 +1,18 @@
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+
 export function TicketCreateForm() {
   return (
     <form action="" className="flex flex-col gap-y-2">
-      <label htmlFor="title">Title</label>
-      <input id="text" name="title" type="text" />
+      <Label htmlFor="title">Title</Label>
+      <Input id="text" name="title" type="text" />
 
-      <label htmlFor="content">Content</label>
-      <textarea id="content" name="content" />
+      <Label htmlFor="content">Content</Label>
+      <Textarea id="content" name="content" />
 
-      <button type="submit">Create</button>
+      <Button type="submit">Create</Button>
     </form>
   );
 }
