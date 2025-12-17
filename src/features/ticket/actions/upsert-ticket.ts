@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation';
 import { ticketPath, ticketsPath } from '@/app/paths';
 import { prisma } from '@/lib/prisma';
 
-export async function upsertTicket(id: string | undefined, formData: FormData) {
+export async function upsertTicket(
+  id: string | undefined,
+  actionMessage: { message: string },
+  formData: FormData
+) {
   const data = {
     title: formData.get('title'),
     content: formData.get('content'),
@@ -28,4 +32,6 @@ export async function upsertTicket(id: string | undefined, formData: FormData) {
   if (id) {
     redirect(ticketPath(id));
   }
+
+  return { message: 'Ticket created successfully' };
 }

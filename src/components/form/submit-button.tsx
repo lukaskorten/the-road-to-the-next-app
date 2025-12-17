@@ -1,5 +1,3 @@
-'use client';
-
 import { LucideLoader } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { Button } from '../ui/button';
