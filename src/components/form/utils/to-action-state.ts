@@ -5,11 +5,13 @@ export type ActionState = {
   message: string;
   payload?: FormData;
   fieldErrors: Record<string, string[] | undefined>;
+  timestamp: number;
 };
 
 export const EMPTY_ACTION_STATE: ActionState = {
   message: '',
   fieldErrors: {},
+  timestamp: Date.now(),
 };
 
 export function fromErrorToActionState(
@@ -22,6 +24,7 @@ export function fromErrorToActionState(
       message: '',
       payload: formData,
       fieldErrors: z.flattenError(error).fieldErrors,
+      timestamp: Date.now(),
     };
   } else if (error instanceof Error) {
     return {
@@ -29,6 +32,7 @@ export function fromErrorToActionState(
       message: error.message,
       payload: formData,
       fieldErrors: {},
+      timestamp: Date.now(),
     };
   } else {
     return {
@@ -36,6 +40,7 @@ export function fromErrorToActionState(
       message: 'Something went wrong',
       payload: formData,
       fieldErrors: {},
+      timestamp: Date.now(),
     };
   }
 }
@@ -45,5 +50,6 @@ export function toSuccessActionState(message: string): ActionState {
     status: 'SUCCESS',
     message,
     fieldErrors: {},
+    timestamp: Date.now(),
   };
 }
