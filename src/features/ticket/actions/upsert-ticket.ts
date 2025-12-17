@@ -41,5 +41,5 @@ export async function upsertTicket(
     redirect(ticketPath(id));
   }
 
-  return { message: 'Ticket created successfully' };
+  return { message: 'Ticket created successfully', fieldErrors: {} };
 }
