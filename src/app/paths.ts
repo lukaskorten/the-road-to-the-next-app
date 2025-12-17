@@ -5,4 +5,7 @@ export const homePath = (): Route => '/' as Route;
 export const ticketPath = (ticketId: string): Route =>
   `/tickets/${ticketId}` as Route;
 
+export const ticketEditPath = (ticketId: string): Route =>
+  `/tickets/${ticketId}/edit` as Route;
+
 export const ticketsPath = (): Route => '/tickets' as Route;
