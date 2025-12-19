@@ -40,7 +40,7 @@ export async function upsertTicket(
   revalidatePath(ticketsPath());
 
   if (id) {
-    setCookie('toast', 'Ticket created');
+    await setCookie('toast', 'Ticket created');
     redirect(ticketPath(id));
   }
 
