@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { setCookie } from '@/actions/cookies';
 import { ticketPath, ticketsPath } from '@/app/paths';
 import {
   ActionState,
@@ -39,8 +40,9 @@ export async function upsertTicket(
   revalidatePath(ticketsPath());
 
   if (id) {
+    setCookie('toast', 'Ticket created');
     redirect(ticketPath(id));
   }
 
-  return toSuccessActionState('Ticket created successfully');
+  return toSuccessActionState('Ticket created');
 }
