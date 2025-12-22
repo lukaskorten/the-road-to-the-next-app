@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import { DatePicker } from '@/components/date-picker';
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
 import { SubmitButton } from '@/components/form/submit-button';
@@ -47,10 +48,9 @@ export function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
       <div className="flex gap-x-2 mb-2">
         <div className="flex flex-col gap-y-2 w-1/2">
           <Label htmlFor="deadline">Deadline</Label>
-          <Input
+          <DatePicker
             id="text"
             name="deadline"
-            type="date"
             defaultValue={
               (actionState.payload?.get('deadline') as string) ??
               ticket?.deadline
