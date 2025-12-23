@@ -5,7 +5,10 @@ import { DatePicker } from '@/components/date-picker';
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
 import { SubmitButton } from '@/components/form/submit-button';
-import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
+import {
+  ActionState,
+  EMPTY_ACTION_STATE,
+} from '@/components/form/utils/to-action-state';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,8 +26,14 @@ export function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
     EMPTY_ACTION_STATE
   );
 
+  const handleSuccess = (actionState: ActionState) => {
+    // TODO: reset the date-picker
+
+    console.log('success');
+  };
+
   return (
-    <Form action={action} actionState={actionState}>
+    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Label htmlFor="title">Title</Label>
       <Input
         id="text"
