@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { ticketEditPath, ticketPath } from '@/app/paths';
+import { ConfirmDialog } from '@/components/confirm-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
@@ -47,11 +48,14 @@ function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
   );
 
   const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-      <Button variant="outline" size="icon">
-        <LucideTrash />
-      </Button>
-    </form>
+    <ConfirmDialog
+      action={deleteTicket.bind(null, ticket.id)}
+      trigger={
+        <Button variant="outline" size="icon">
+          <LucideTrash />
+        </Button>
+      }
+    />
   );
 
   const moreButton = (

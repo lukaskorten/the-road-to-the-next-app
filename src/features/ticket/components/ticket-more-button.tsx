@@ -34,6 +34,7 @@ export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
     toast.promise(updatePromise, {
       loading: 'Updating status...',
     });
+
     const result = await updatePromise;
 
     if (result.status === 'ERROR') {
