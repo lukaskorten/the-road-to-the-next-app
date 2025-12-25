@@ -3,6 +3,7 @@
 import { DropdownMenuRadioGroup } from '@radix-ui/react-dropdown-menu';
 import { LucideTrash } from 'lucide-react';
 import { toast } from 'sonner';
+import { useConfirmDialog } from '@/components/confirm-dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Ticket, TicketStatus } from '@/generated/prisma/client';
+import { deleteTicket } from '../actions/delete-ticket';
 import { updateTicketStatus } from '../actions/update-ticket-status';
 import { TICKET_STATUS_LABELS, TICKET_STATUSES } from '../constants';
 
@@ -21,12 +23,15 @@ type TicketMoreButtonProps = {
 };
 
 export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
-  const deleteButton = (
-    <DropdownMenuItem>
-      <LucideTrash />
-      <span>Delete</span>
-    </DropdownMenuItem>
-  );
+  const [deleteButton, deleteDialog] = useConfirmDialog({
+    action: deleteTicket.bind(null, ticket.id),
+    trigger: (
+      <DropdownMenuItem>
+        <LucideTrash />
+        <span>Delete</span>
+      </DropdownMenuItem>
+    ),
+  });
 
   const handleStatusChange = async (value: string) => {
     const updatePromise = updateTicketStatus(ticket.id, value as TicketStatus);
@@ -57,13 +62,16 @@ export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
     </DropdownMenuRadioGroup>
   );
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" side="right">
-        {ticketStatusRadioGroupItems}
-        <DropdownMenuSeparator />
-        {deleteButton}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      {deleteDialog}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" side="right">
+          {ticketStatusRadioGroupItems}
+          <DropdownMenuSeparator />
+          {deleteButton}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 }
