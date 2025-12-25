@@ -1,5 +1,8 @@
+'use client';
+
 import { DropdownMenuRadioGroup } from '@radix-ui/react-dropdown-menu';
 import { LucideTrash } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Ticket } from '@/generated/prisma/client';
+import { Ticket, TicketStatus } from '@/generated/prisma/client';
+import { updateTicketStatus } from '../actions/update-ticket-status';
 import { TICKET_STATUS_LABELS, TICKET_STATUSES } from '../constants';
 
 type TicketMoreButtonProps = {
@@ -24,8 +28,23 @@ export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
     </DropdownMenuItem>
   );
 
+  const handleStatusChange = (newStatus: string) => {
+    const updateStatus = async () => {
+      const actionState = await updateTicketStatus(
+        ticket.id,
+        newStatus as TicketStatus
+      );
+      toast.success(actionState.message);
+    };
+
+    updateStatus();
+  };
+
   const ticketStatusRadioGroupItems = (
-    <DropdownMenuRadioGroup value={ticket.status}>
+    <DropdownMenuRadioGroup
+      value={ticket.status}
+      onValueChange={handleStatusChange}
+    >
       {TICKET_STATUSES.map((status) => (
         <DropdownMenuRadioItem key={status} value={status}>
           {TICKET_STATUS_LABELS[status]}
