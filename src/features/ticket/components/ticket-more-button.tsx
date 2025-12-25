@@ -29,7 +29,12 @@ export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
   );
 
   const handleStatusChange = async (value: string) => {
-    const result = await updateTicketStatus(ticket.id, value as TicketStatus);
+    const updatePromise = updateTicketStatus(ticket.id, value as TicketStatus);
+
+    toast.promise(updatePromise, {
+      loading: 'Updating status...',
+    });
+    const result = await updatePromise;
 
     if (result.status === 'ERROR') {
       toast.error(result.message);
