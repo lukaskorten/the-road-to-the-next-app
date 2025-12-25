@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { ticketPath, ticketsPath } from '@/app/paths';
+import { ticketsPath } from '@/app/paths';
 import {
   fromErrorToActionState,
   toSuccessActionState,
@@ -22,7 +22,6 @@ export async function updateTicketStatus(
     return fromErrorToActionState(error);
   }
 
-  revalidatePath(ticketPath(ticketId));
   revalidatePath(ticketsPath());
 
   return toSuccessActionState('Status updated');
