@@ -28,12 +28,14 @@ export function TicketMoreButton({ ticket, trigger }: TicketMoreButtonProps) {
     </DropdownMenuItem>
   );
 
-  const handleStatusChange = async (newStatus: string) => {
-    const actionState = await updateTicketStatus(
-      ticket.id,
-      newStatus as TicketStatus
-    );
-    toast.success(actionState.message);
+  const handleStatusChange = async (value: string) => {
+    const result = await updateTicketStatus(ticket.id, value as TicketStatus);
+
+    if (result.status === 'ERROR') {
+      toast.error(result.message);
+    } else if (result.status === 'SUCCESS') {
+      toast.success(result.message);
+    }
   };
 
   const ticketStatusRadioGroupItems = (
