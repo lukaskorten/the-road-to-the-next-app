@@ -19,7 +19,7 @@ type DatePickerProps = {
   id: string;
   name: string;
   defaultValue?: string;
-  imperativeHandle?: RefObject<ImerativeHandleFromDatePicker>;
+  imperativeHandle?: RefObject<ImerativeHandleFromDatePicker | null>;
 };
 
 export function DatePicker({

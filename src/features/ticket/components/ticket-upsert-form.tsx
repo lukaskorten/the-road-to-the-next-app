@@ -60,6 +60,7 @@ export function TicketUpsertForm({ ticket }: TicketUpsertFormProps) {
           <DatePicker
             id="text"
             name="deadline"
+            imperativeHandle={imperativeHandleFromDatePicker}
             defaultValue={
               (actionState.payload?.get('deadline') as string) ??
               ticket?.deadline
