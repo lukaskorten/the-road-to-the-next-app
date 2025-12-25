@@ -18,7 +18,7 @@ import {
 import { Ticket } from '@/generated/prisma/client';
 import { toCurrencyFromCent } from '@/utils/currency';
 import { deleteTicket } from '../actions/delete-ticket';
-import { TICKET_ICONS } from '../constants';
+import { TICKET_STATUS_ICONS } from '../constants';
 import { TicketMoreButton } from './ticket-more-button';
 
 type TicketItemProps = {
@@ -75,7 +75,7 @@ function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex gap-x-2 items-center">
-            <span>{TICKET_ICONS[ticket.status]}</span>
+            <span>{TICKET_STATUS_ICONS[ticket.status]}</span>
             <span className="truncate">{ticket.title}</span>
           </CardTitle>
         </CardHeader>
