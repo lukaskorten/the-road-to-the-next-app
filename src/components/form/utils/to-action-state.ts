@@ -53,3 +53,12 @@ export function toSuccessActionState(message: string): ActionState {
     timestamp: Date.now(),
   };
 }
+
+export function toErrorActionState(message: string): ActionState {
+  return {
+    status: 'ERROR',
+    message,
+    fieldErrors: {},
+    timestamp: Date.now(),
+  };
+}

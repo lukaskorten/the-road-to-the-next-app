@@ -1,7 +1,6 @@
 'use server';
 
 import { hash } from '@node-rs/argon2';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { ticketsPath } from '@/app/paths';
@@ -9,8 +8,8 @@ import {
   ActionState,
   fromErrorToActionState,
 } from '@/components/form/utils/to-action-state';
-import { lucia } from '@/lib/lucia';
 import { prisma } from '@/lib/prisma';
+import { createSession } from '../utils/create-session';
 
 const signUpSchema = z
   .object({
@@ -47,14 +46,7 @@ export async function signUp(_: ActionState, formData: FormData) {
       data: { username, email, passwordHash },
     });
 
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-
-    (await cookies()).set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes
-    );
+    await createSession(user.id);
   } catch (error) {
     return fromErrorToActionState(error);
   }
