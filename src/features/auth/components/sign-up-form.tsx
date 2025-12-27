@@ -15,11 +15,22 @@ export function SignUpForm() {
   return (
     <Form action={action} actionState={actionState}>
       <Label htmlFor="username">Username</Label>
-      <Input id="username" name="username" placeholder="Username" />
+      <Input
+        id="username"
+        name="username"
+        placeholder="Username"
+        defaultValue={actionState.payload?.get('username') as string}
+      />
       <FieldError actionState={actionState} name="username" />
 
       <Label htmlFor="email">Email</Label>
-      <Input id="email" name="email" type="email" placeholder="Email" />
+      <Input
+        id="email"
+        name="email"
+        type="email"
+        placeholder="Email"
+        defaultValue={actionState.payload?.get('email') as string}
+      />
       <FieldError actionState={actionState} name="email" />
 
       <Label htmlFor="password">Password</Label>
@@ -28,6 +39,7 @@ export function SignUpForm() {
         name="password"
         type="password"
         placeholder="Password"
+        defaultValue={actionState.payload?.get('password') as string}
       />
       <FieldError actionState={actionState} name="password" />
 
@@ -37,6 +49,7 @@ export function SignUpForm() {
         name="confirmPassword"
         type="password"
         placeholder="Confirm Password"
+        defaultValue={actionState.payload?.get('confirmPassword') as string}
       />
       <FieldError actionState={actionState} name="confirmPassword" />
 
