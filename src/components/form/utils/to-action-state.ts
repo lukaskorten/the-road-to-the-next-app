@@ -54,10 +54,14 @@ export function toSuccessActionState(message: string): ActionState {
   };
 }
 
-export function toErrorActionState(message: string): ActionState {
+export function toErrorActionState(
+  message: string,
+  payload?: FormData
+): ActionState {
   return {
     status: 'ERROR',
     message,
+    payload,
     fieldErrors: {},
     timestamp: Date.now(),
   };
