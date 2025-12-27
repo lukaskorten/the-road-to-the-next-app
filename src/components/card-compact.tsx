@@ -10,7 +10,7 @@ import {
 type CardComponentProps = {
   title: string;
   description: string;
-  content: React.ReactElement;
+  content: React.ReactNode;
   footer?: React.ReactElement;
   className?: string;
 };
