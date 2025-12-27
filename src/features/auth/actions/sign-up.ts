@@ -7,7 +7,9 @@ import { ticketsPath } from '@/app/paths';
 import {
   ActionState,
   fromErrorToActionState,
+  toErrorActionState,
 } from '@/components/form/utils/to-action-state';
+import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { createSession } from '../utils/create-session';
 
@@ -48,7 +50,17 @@ export async function signUp(_: ActionState, formData: FormData) {
 
     await createSession(user.id);
   } catch (error) {
-    return fromErrorToActionState(error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      return toErrorActionState(
+        'Either email or username is already in use',
+        formData
+      );
+    }
+
+    return fromErrorToActionState(error, formData);
   }
 
   redirect(ticketsPath());
