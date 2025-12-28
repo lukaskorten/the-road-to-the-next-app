@@ -30,9 +30,6 @@ function Header() {
       <form action={signOut}>
         <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
       </form>
-      <form action={signOut}>
-        <SubmitButton icon={<LucideLogOut />} />
-      </form>
     </>
   );
 
