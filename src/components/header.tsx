@@ -2,12 +2,14 @@ import { LucideKanban, LucideLogOut } from 'lucide-react';
 import Link from 'next/link';
 import { homePath, signInPath, signUpPath, ticketsPath } from '@/app/paths';
 import { signOut } from '@/features/auth/actions/sign-out';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { SubmitButton } from './form/submit-button';
 import { ThemeSwitcher } from './theme/theme-switcher';
 import { buttonVariants } from './ui/button';
 
-function Header() {
-  const navItems = (
+async function Header() {
+  const { user } = await getAuth();
+  const navItems = user ? (
     <>
       <Link
         href={ticketsPath()}
@@ -15,6 +17,12 @@ function Header() {
       >
         Tickets
       </Link>
+      <form action={signOut}>
+        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+      </form>
+    </>
+  ) : (
+    <>
       <Link
         href={signUpPath()}
         className={buttonVariants({ variant: 'outline' })}
@@ -23,17 +31,10 @@ function Header() {
       </Link>
       <Link
         href={signInPath()}
-        className={buttonVariants({ variant: 'outline' })}
+        className={buttonVariants({ variant: 'default' })}
       >
         Sign In
       </Link>
-      <form action={signOut}>
-        <SubmitButton
-          label="Sign Out"
-          icon={<LucideLogOut />}
-          variant="outline"
-        />
-      </form>
     </>
   );
 
