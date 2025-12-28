@@ -28,7 +28,11 @@ function Header() {
         Sign In
       </Link>
       <form action={signOut}>
-        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+        <SubmitButton
+          label="Sign Out"
+          icon={<LucideLogOut />}
+          variant="outline"
+        />
       </form>
     </>
   );

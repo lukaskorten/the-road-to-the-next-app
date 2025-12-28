@@ -3,17 +3,24 @@
 import { LucideLoader } from 'lucide-react';
 import { ReactElement } from 'react';
 import { useFormStatus } from 'react-dom';
-import { Button } from '../ui/button';
+import { Button, ButtonSize, ButtonVariant } from '../ui/button';
 
 type SubmitButtonProps = {
   label?: string;
   icon?: ReactElement<HTMLElement>;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
 };
 
-export function SubmitButton({ label, icon }: SubmitButtonProps) {
+export function SubmitButton({
+  label,
+  icon,
+  variant,
+  size,
+}: SubmitButtonProps) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit">
+    <Button type="submit" variant={variant} size={size}>
       {pending && <LucideLoader className="animate-spin" />}
       {label}
       {pending ? null : icon}
