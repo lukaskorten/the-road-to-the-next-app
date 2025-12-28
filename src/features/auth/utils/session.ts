@@ -7,6 +7,11 @@ export async function createSession(userId: string) {
   await setSessionCookie(session.id);
 }
 
+export async function invalidateSession(sessionId: string) {
+  await lucia.invalidateSession(sessionId);
+  await setBlankSessionCookie();
+}
+
 export async function setSessionCookie(sessionId: string) {
   const sessionCookie = lucia.createSessionCookie(sessionId);
   await setCookie(sessionCookie);

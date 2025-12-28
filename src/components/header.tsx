@@ -1,10 +1,41 @@
-import { LucideKanban } from 'lucide-react';
+import { LucideKanban, LucideLogOut } from 'lucide-react';
 import Link from 'next/link';
 import { homePath, signInPath, signUpPath, ticketsPath } from '@/app/paths';
+import { signOut } from '@/features/auth/actions/sign-out';
+import { SubmitButton } from './form/submit-button';
 import { ThemeSwitcher } from './theme/theme-switcher';
 import { buttonVariants } from './ui/button';
 
 function Header() {
+  const navItems = (
+    <>
+      <Link
+        href={ticketsPath()}
+        className={buttonVariants({ variant: 'default' })}
+      >
+        Tickets
+      </Link>
+      <Link
+        href={signUpPath()}
+        className={buttonVariants({ variant: 'outline' })}
+      >
+        Sign Up
+      </Link>
+      <Link
+        href={signInPath()}
+        className={buttonVariants({ variant: 'outline' })}
+      >
+        Sign In
+      </Link>
+      <form action={signOut}>
+        <SubmitButton label="Sign Out" icon={<LucideLogOut />} />
+      </form>
+      <form action={signOut}>
+        <SubmitButton icon={<LucideLogOut />} />
+      </form>
+    </>
+  );
+
   return (
     <nav
       className="supports-backdrop-blur:bg-background/60
@@ -23,24 +54,7 @@ function Header() {
       </div>
       <div className="flex items-center gap-x-1">
         <ThemeSwitcher />
-        <Link
-          href={ticketsPath()}
-          className={buttonVariants({ variant: 'default' })}
-        >
-          Tickets
-        </Link>
-        <Link
-          href={signUpPath()}
-          className={buttonVariants({ variant: 'outline' })}
-        >
-          Sign Up
-        </Link>
-        <Link
-          href={signInPath()}
-          className={buttonVariants({ variant: 'outline' })}
-        >
-          Sign In
-        </Link>
+        {navItems}
       </div>
     </nav>
   );
