@@ -10,6 +10,7 @@
   --font-mono: var(--font-geist-mono);
 
   --animate-fade-from-top: fade-from-top 0.3s ease-out;
+  --animate-header-from-top: header-from-top 0.5s ease-out;
 
   --color-sidebar-ring: var(--sidebar-ring);
 
@@ -69,17 +70,6 @@
 
   --color-card: var(--card);
 
-  @keyframes fade-from-top {
-    0% {
-      opacity: 0;
-      transform: translateY(-16px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -93,6 +83,26 @@
   --radius-3xl: calc(var(--radius) + 12px);
 
   --radius-4xl: calc(var(--radius) + 16px);
+
+  @keyframes fade-from-top {
+    0% {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes header-from-top {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
 
 :root {
