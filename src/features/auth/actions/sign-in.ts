@@ -10,7 +10,7 @@ import {
   toErrorActionState,
 } from '@/components/form/utils/to-action-state';
 import { prisma } from '@/lib/prisma';
-import { createSession } from '../utils/create-session';
+import { createSession } from '../utils/session';
 
 const signInSchema = z.object({
   email: z.email().min(1).max(191),

@@ -11,7 +11,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
-import { createSession } from '../utils/create-session';
+import { createSession } from '../utils/session';
 
 const signUpSchema = z
   .object({
