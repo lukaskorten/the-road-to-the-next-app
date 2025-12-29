@@ -13,5 +13,6 @@ export async function signOut() {
   }
 
   await invalidateSession(session.id);
+
   redirect(signInPath());
 }

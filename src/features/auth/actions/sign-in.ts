@@ -1,6 +1,5 @@
 'use server';
 
-import { verify } from '@node-rs/argon2';
 import { redirect } from 'next/navigation';
 import z from 'zod';
 import { ticketsPath } from '@/app/paths';
@@ -9,6 +8,7 @@ import {
   fromErrorToActionState,
   toErrorActionState,
 } from '@/components/form/utils/to-action-state';
+import { verifyPassword } from '@/features/password/utils/hash-and-verify';
 import { prisma } from '@/lib/prisma';
 import { createSession } from '../utils/session';
 
@@ -28,7 +28,7 @@ export async function signIn(_: ActionState, formData: FormData) {
       return toErrorActionState('Invalid email or password', formData);
     }
 
-    const isPasswordValid = await verify(user.passwordHash, password);
+    const isPasswordValid = await verifyPassword(user.passwordHash, password);
     if (!isPasswordValid) {
       return toErrorActionState('Invalid email or password', formData);
     }
