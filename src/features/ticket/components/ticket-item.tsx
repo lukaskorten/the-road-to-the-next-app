@@ -20,7 +20,9 @@ import { TICKET_STATUS_ICONS } from '../constants';
 import { TicketMoreButton } from './ticket-more-button';
 
 type TicketItemProps = {
-  ticket: Prisma.TicketGetPayload<{ include: { user: true } }>;
+  ticket: Prisma.TicketGetPayload<{
+    include: { user: { select: { username: true } } };
+  }>;
   isDetail?: boolean;
 };
 
