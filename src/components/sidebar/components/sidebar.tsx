@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from '../constants';
 import { SidebarItem } from './siderbar-item';
 
 export function Sidebar() {
+  const { user, isFetched } = useAuth();
   const [isTransition, setIsTransition] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -15,9 +17,14 @@ export function Sidebar() {
     setTimeout(() => setIsTransition(false), 200);
   };
 
+  if (!isFetched || !user) {
+    return null;
+  }
+
   return (
     <nav
       className={cn(
+        'animate-sidebar-from-left',
         'h-screen border-r pt-24',
         isTransition && 'duration-200',
         isOpen ? 'md:w-60 w-17' : 'w-17'
