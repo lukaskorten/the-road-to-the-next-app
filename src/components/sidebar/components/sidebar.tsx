@@ -18,7 +18,7 @@ export function Sidebar() {
   };
 
   if (!isFetched || !user) {
-    return null;
+    return <div className="w-17"></div>;
   }
 
   return (
