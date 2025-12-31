@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import { ticketsPath } from '@/app/paths';
+import { Breadcrumbs } from '@/components/breadcrumbs';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
 import { getTicket } from '@/features/ticket/queries/get-ticket';
 
@@ -15,8 +17,16 @@ export default async function TicketPage({ params }: TicketPageProps) {
   }
 
   return (
-    <div className="flex justify-center animate-fade-from-top">
-      <TicketItem ticket={ticket} isDetail />
-    </div>
+    <>
+      <Breadcrumbs
+        items={[
+          { title: 'Tickets', href: ticketsPath() },
+          { title: ticket.title },
+        ]}
+      />
+      <div className="flex justify-center animate-fade-from-top">
+        <TicketItem ticket={ticket} isDetail />
+      </div>
+    </>
   );
 }

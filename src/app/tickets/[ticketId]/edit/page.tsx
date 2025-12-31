@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import { ticketPath, ticketsPath } from '@/app/paths';
+import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CardCompact } from '@/components/card-compact';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { isOwner } from '@/features/auth/utils/is-owner';
@@ -22,13 +24,22 @@ export default async function TicketEditPage({ params }: TicketEditPageProps) {
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center">
-      <CardCompact
-        title="Edit ticket"
-        description="Edit an existing ticket"
-        content={<TicketUpsertForm ticket={ticket} />}
-        className="w-full max-w-105"
+    <>
+      <Breadcrumbs
+        items={[
+          { title: 'Tickets', href: ticketsPath() },
+          { title: ticket.title, href: ticketPath(ticketId) },
+          { title: 'Edit' },
+        ]}
       />
-    </div>
+      <div className="flex-1 flex items-center justify-center">
+        <CardCompact
+          title="Edit ticket"
+          description="Edit an existing ticket"
+          content={<TicketUpsertForm ticket={ticket} />}
+          className="w-full max-w-105"
+        />
+      </div>
+    </>
   );
 }
