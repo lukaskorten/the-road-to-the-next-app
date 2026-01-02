@@ -60,7 +60,7 @@ export async function validateSession() {
       where: { id: sessionId },
       data: { expiresAt: session.expiresAt },
     });
-    setSessionCookie(sessionToken, session.expiresAt);
+    await setSessionCookie(sessionToken, session.expiresAt);
   }
 
   return { session, user };
