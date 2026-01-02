@@ -5,4 +5,5 @@ export type NavItem = {
   title: string;
   icon: ReactElement<Element>;
   href: Route;
+  hasSeparator?: boolean;
 };

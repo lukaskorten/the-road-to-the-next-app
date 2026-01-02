@@ -15,3 +15,6 @@ export const signUpPath = (): Route => '/sign-up' as Route;
 export const signInPath = (): Route => '/sign-in' as Route;
 
 export const passwordForgotPath = (): Route => '/password-forgot' as Route;
+
+export const accountProfilePath = (): Route => '/account/profile' as Route;
+export const accountPasswordPath = (): Route => '/account/password' as Route;
