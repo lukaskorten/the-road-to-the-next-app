@@ -1,8 +1,11 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { passwordForgotPath, signInPath, signUpPath } from '@/app/paths';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { cn } from '@/lib/utils';
+import { getActivePath } from '@/utils/get-active-path';
 import { NAV_ITEMS } from '../constants';
 import { SidebarItem } from './siderbar-item';
 
@@ -10,6 +13,12 @@ export function Sidebar() {
   const { user, isFetched } = useAuth();
   const [isTransition, setIsTransition] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const { activeIndex } = getActivePath(
+    pathname,
+    NAV_ITEMS.map((i) => i.href),
+    [signInPath(), signUpPath(), passwordForgotPath()]
+  );
 
   const handleToggle = (open: boolean) => {
     setIsTransition(true);
@@ -34,11 +43,12 @@ export function Sidebar() {
     >
       <div className="px-3 py-2">
         <nav className="space-y-2">
-          {NAV_ITEMS.map((navItem) => (
+          {NAV_ITEMS.map((navItem, index) => (
             <SidebarItem
               key={navItem.title}
               navItem={navItem}
               isOpen={isOpen}
+              isActive={index === activeIndex}
             />
           ))}
         </nav>
