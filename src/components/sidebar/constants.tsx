@@ -5,17 +5,17 @@ import { NavItem } from './types';
 export const NAV_ITEMS: NavItem[] = [
   {
     title: 'All Tickets',
-    icon: <LucideLibrary />,
+    icon: LucideLibrary,
     href: homePath(),
   },
   {
     title: 'My Tickets',
-    icon: <LucideBook />,
+    icon: LucideBook,
     href: ticketsPath(),
   },
   {
     title: 'Profile',
-    icon: <LucideContact />,
+    icon: LucideContact,
     href: accountProfilePath(),
     hasSeparator: true,
   },

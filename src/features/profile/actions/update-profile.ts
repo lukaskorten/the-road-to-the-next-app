@@ -19,8 +19,9 @@ const updateUserSchema = z.object({
     .min(1)
     .max(191)
     .refine((value) => !value.includes(' '), 'Username cannot contain spaces'),
-  firstName: z.string().min(1).max(191),
-  lastName: z.string().min(1).max(191),
+  avatarUrl: z.url().optional(),
+  firstName: z.string().max(191).optional(),
+  lastName: z.string().max(191).optional(),
 });
 
 export async function updateProfile(
@@ -33,6 +34,7 @@ export async function updateProfile(
     const data = updateUserSchema.parse({
       ...user,
       username: formData.get('username'),
+      avatarUrl: formData.get('avatarUrl'),
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
     });

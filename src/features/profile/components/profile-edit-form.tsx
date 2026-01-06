@@ -33,6 +33,17 @@ export function ProfileEditForm({ user }: ProfileEditFormProps) {
       />
       <FieldError actionState={actionState} name="username" />
 
+      <Label htmlFor="avatarUrl">Avatar URL</Label>
+      <Input
+        id="avatarUrl"
+        name="avatarUrl"
+        type="url"
+        defaultValue={
+          (actionState.payload?.get('avatarUrl') as string) ?? user.avatarUrl
+        }
+      />
+      <FieldError actionState={actionState} name="username" />
+
       <Label htmlFor="firstName">First Name</Label>
       <Input
         id="firstName"
