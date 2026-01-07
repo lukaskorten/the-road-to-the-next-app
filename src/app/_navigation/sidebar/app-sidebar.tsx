@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/sidebar';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { getActivePath } from '@/utils/get-active-path';
-import { NAV_ITEMS } from '../constants';
+import { NAV_ITEMS } from './constants';
 import { NavUser } from './nav-user';
 
 export function AppSidebar() {

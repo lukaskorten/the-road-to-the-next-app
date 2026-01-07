@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { AppHeader } from '@/components/app-header';
-import { AppSidebar } from '@/components/sidebar/components/app-sidebar';
+import { AppHeader } from '@/app/_navigation/app-header';
+import { AppSidebar } from '@/app/_navigation/sidebar/app-sidebar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';

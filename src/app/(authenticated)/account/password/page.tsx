@@ -1,6 +1,6 @@
 import { Heading } from '@/components/heading';
-import { AccountTabs } from '@/features/account/components/account-tabs';
 import { PasswordEditForm } from '@/features/password/components/password-edit-form';
+import { AccountTabs } from '../_navigation/account-tabs';
 
 export default function AccountPasswordPage() {
   return (

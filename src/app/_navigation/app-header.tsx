@@ -4,9 +4,9 @@ import { Separator } from '@radix-ui/react-separator';
 import Link from 'next/link';
 import { signInPath, signUpPath } from '@/app/paths';
 import { useAuth } from '@/features/auth/hooks/use-auth';
-import { ThemeSwitcher } from './theme/theme-switcher';
-import { buttonVariants } from './ui/button';
-import { SidebarTrigger } from './ui/sidebar';
+import { ThemeSwitcher } from '../../components/theme/theme-switcher';
+import { buttonVariants } from '../../components/ui/button';
+import { SidebarTrigger } from '../../components/ui/sidebar';
 
 const navItems = (
   <>

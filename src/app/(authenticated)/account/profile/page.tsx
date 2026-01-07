@@ -1,7 +1,7 @@
 import { Heading } from '@/components/heading';
-import { AccountTabs } from '@/features/account/components/account-tabs';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { ProfileEditForm } from '@/features/profile/components/profile-edit-form';
+import { AccountTabs } from '../_navigation/account-tabs';
 
 export default async function AccountProfilePage() {
   const { user } = await getAuth();
