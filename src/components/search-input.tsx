@@ -3,6 +3,7 @@
 import { Route } from 'next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 import { Input } from './ui/input';
 
 type SearchInputProps = {
@@ -14,20 +15,23 @@ export function SearchInput({ placeholder }: SearchInputProps) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const params = new URLSearchParams(searchParams);
+  const handleOnChange = useDebouncedCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const { value } = event.target;
+      const params = new URLSearchParams(searchParams);
 
-    if (value) {
-      params.set('search', value);
-    } else {
-      params.delete('search');
-    }
+      if (value) {
+        params.set('search', value);
+      } else {
+        params.delete('search');
+      }
 
-    replace(`${pathname}?${params.toString()}` as Route, {
-      scroll: false,
-    });
-  };
+      replace(`${pathname}?${params.toString()}` as Route, {
+        scroll: false,
+      });
+    },
+    250
+  );
 
   return <Input placeholder={placeholder} onChange={handleOnChange} />;
 }
