@@ -5,8 +5,13 @@ import { Spinner } from '@/components/spinner';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { TicketList } from '@/features/ticket/components/ticket-list';
 import { TicketUpsertForm } from '@/features/ticket/components/ticket-upsert-form';
+import { SearchParams } from '@/features/ticket/search-params';
 
-export default async function TicketsPage() {
+type TicketsPageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function TicketsPage({ searchParams }: TicketsPageProps) {
   const { user } = await getAuth();
 
   return (
@@ -21,7 +26,7 @@ export default async function TicketsPage() {
       />
 
       <Suspense fallback={<Spinner />}>
-        <TicketList userId={user?.id} />
+        <TicketList userId={user?.id} searchParams={await searchParams} />
       </Suspense>
     </div>
   );
