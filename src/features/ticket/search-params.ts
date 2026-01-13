@@ -4,14 +4,6 @@ import {
   parseAsString,
 } from 'nuqs/server';
 
-/**
- * @deprecated
- */
-export type SearchParams = {
-  search: string | undefined | string[];
-  sort: string | undefined | string[];
-};
-
 const parsers = {
   search: parseAsString.withDefault(''),
   sort: parseAsString.withDefault('newest'),
