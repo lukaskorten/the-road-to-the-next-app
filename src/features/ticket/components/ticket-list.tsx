@@ -2,15 +2,16 @@ import { Placeholder } from '@/components/placeholder';
 import { SearchInput } from '@/components/search-input';
 import { SortSelect } from '@/components/sort-select';
 import { getTickets } from '../queries/get-tickets';
-import { SearchParams } from '../search-params';
+import { searchParamsCache } from '../search-params';
 import { TicketItem } from './ticket-item';
 
 type TicketListProps = {
   userId?: string;
-  searchParams: SearchParams;
 };
 
-export async function TicketList({ userId, searchParams }: TicketListProps) {
+export async function TicketList({ userId }: TicketListProps) {
+  const searchParams = searchParamsCache.all();
+  console.log(searchParams);
   const tickets = await getTickets(userId, searchParams);
 
   return (

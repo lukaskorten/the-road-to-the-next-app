@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { AppHeader } from '@/app/_navigation/app-header';
 import { AppSidebar } from '@/app/_navigation/sidebar/app-sidebar';
 import { ThemeProvider } from '@/components/theme/theme-provider';
@@ -32,16 +33,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-              <AppHeader />
-              <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
-              <Toaster />
-            </SidebarInset>
-          </SidebarProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                <AppHeader />
+                <main className="flex flex-1 flex-col gap-4 p-4">
+                  {children}
+                </main>
+                <Toaster />
+              </SidebarInset>
+            </SidebarProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
