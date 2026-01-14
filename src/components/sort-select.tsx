@@ -1,8 +1,8 @@
 'use client';
 
-import { Route } from 'next';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useQueryState } from 'nuqs';
 import { useDebouncedCallback } from 'use-debounce';
+import { parsers } from '@/features/ticket/search-params';
 import {
   Select,
   SelectContent,
@@ -22,31 +22,14 @@ type SortSelectProps = {
 };
 
 export function SortSelect({ defaultValue, options }: SortSelectProps) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
+  const [sort, setSort] = useQueryState('sort', parsers.sort);
 
   const handleSort = useDebouncedCallback((value: string) => {
-    const params = new URLSearchParams(searchParams);
-
-    if (value === defaultValue) {
-      params.delete('sort');
-    } else if (value) {
-      params.set('sort', value);
-    } else {
-      params.delete('sort');
-    }
-
-    replace(`${pathname}?${params.toString()}` as Route, {
-      scroll: false,
-    });
+    setSort(value);
   }, 250);
 
   return (
-    <Select
-      onValueChange={handleSort}
-      value={searchParams.get('sort') ?? defaultValue}
-    >
+    <Select onValueChange={handleSort} value={sort ?? defaultValue}>
       <SelectTrigger className="w-45">
         <SelectValue />
       </SelectTrigger>
