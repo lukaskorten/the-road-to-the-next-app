@@ -1,8 +1,8 @@
 'use client';
 
-import { useQueryState } from 'nuqs';
+import { useQueryStates } from 'nuqs';
 import { useDebouncedCallback } from 'use-debounce';
-import { parsers } from '@/features/ticket/search-params';
+import { sortOptions, sortParser } from '@/features/ticket/search-params';
 import {
   Select,
   SelectContent,
@@ -12,30 +12,37 @@ import {
 } from './ui/select';
 
 type SelectOption = {
-  value: string;
   label: string;
+  sortKey: string;
+  sortValue: string;
 };
 
 type SortSelectProps = {
-  defaultValue: string;
   options: SelectOption[];
 };
 
-export function SortSelect({ defaultValue, options }: SortSelectProps) {
-  const [sort, setSort] = useQueryState('sort', parsers.sort);
+export function SortSelect({ options }: SortSelectProps) {
+  const [sort, setSort] = useQueryStates(sortParser, sortOptions);
 
   const handleSort = useDebouncedCallback((value: string) => {
-    setSort(value);
+    const [sortKey, sortValue] = value.split('_');
+    setSort({ sortKey, sortValue });
   }, 250);
 
   return (
-    <Select onValueChange={handleSort} value={sort ?? defaultValue}>
-      <SelectTrigger className="w-45">
+    <Select
+      onValueChange={handleSort}
+      defaultValue={sort.sortKey + '_' + sort.sortValue}
+    >
+      <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
-          <SelectItem key={option.value} value={option.value}>
+          <SelectItem
+            key={option.sortKey + '_' + option.sortValue}
+            value={option.sortKey + '_' + option.sortValue}
+          >
             {option.label}
           </SelectItem>
         ))}

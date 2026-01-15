@@ -3,7 +3,7 @@
 import { useQueryState } from 'nuqs';
 import { ChangeEvent } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { parsers } from '@/features/ticket/search-params';
+import { searchParser } from '@/features/ticket/search-params';
 import { Input } from './ui/input';
 
 type SearchInputProps = {
@@ -11,7 +11,7 @@ type SearchInputProps = {
 };
 
 export function SearchInput({ placeholder }: SearchInputProps) {
-  const [search, setSearch] = useQueryState('search', parsers.search);
+  const [search, setSearch] = useQueryState('search', searchParser);
 
   const handleOnChange = useDebouncedCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

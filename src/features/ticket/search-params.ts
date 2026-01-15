@@ -4,13 +4,23 @@ import {
   parseAsString,
 } from 'nuqs/server';
 
-export const parsers = {
-  search: parseAsString
-    .withDefault('')
-    .withOptions({ shallow: false, clearOnDefault: true }),
-  sort: parseAsString
-    .withDefault('newest')
-    .withOptions({ shallow: false, clearOnDefault: true }),
+export const searchParser = parseAsString
+  .withDefault('')
+  .withOptions({ shallow: false, clearOnDefault: true });
+
+export const sortParser = {
+  sortKey: parseAsString.withDefault('createdAt'),
+  sortValue: parseAsString.withDefault('desc'),
+};
+
+export const sortOptions = {
+  shallow: false,
+  clearOnDefault: true,
+};
+
+const parsers = {
+  search: searchParser,
+  ...sortParser,
 };
 
 export const searchParamsCache = createSearchParamsCache(parsers);

@@ -11,7 +11,6 @@ type TicketListProps = {
 
 export async function TicketList({ userId }: TicketListProps) {
   const searchParams = searchParamsCache.all();
-  console.log(searchParams);
   const tickets = await getTickets(userId, searchParams);
 
   return (
@@ -19,10 +18,27 @@ export async function TicketList({ userId }: TicketListProps) {
       <div className="max-w-105 w-full flex gap-x-2">
         <SearchInput placeholder="Search ticket..." />
         <SortSelect
-          defaultValue="newest"
           options={[
-            { label: 'Newest', value: 'newest' },
-            { label: 'Bounty', value: 'bounty' },
+            {
+              sortKey: 'createdAt',
+              sortValue: 'desc',
+              label: 'Newest',
+            },
+            {
+              sortKey: 'createdAt',
+              sortValue: 'asc',
+              label: 'Oldest',
+            },
+            {
+              sortKey: 'bounty',
+              sortValue: 'desc',
+              label: 'Bounty',
+            },
+            {
+              sortKey: 'bounty',
+              sortValue: 'asc',
+              label: 'Lowest Bounty',
+            },
           ]}
         />
       </div>
