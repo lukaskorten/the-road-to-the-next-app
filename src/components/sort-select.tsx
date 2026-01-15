@@ -1,8 +1,6 @@
 'use client';
 
-import { useQueryStates } from 'nuqs';
 import { useDebouncedCallback } from 'use-debounce';
-import { sortOptions, sortParser } from '@/features/ticket/search-params';
 import {
   Select,
   SelectContent,
@@ -11,29 +9,35 @@ import {
   SelectValue,
 } from './ui/select';
 
-type SelectOption = {
+export type SortSelectOption = {
   label: string;
   sortKey: string;
   sortValue: string;
 };
 
-type SortSelectProps = {
-  options: SelectOption[];
+export type SortParams = {
+  sortKey: string;
+  sortValue: string;
 };
 
-export function SortSelect({ options }: SortSelectProps) {
-  const [sort, setSort] = useQueryStates(sortParser, sortOptions);
+type SortSelectProps = {
+  options: SortSelectOption[];
+  onChange: (value: SortParams) => void;
+  defaultValue?: string;
+};
 
+export function SortSelect({
+  options,
+  onChange,
+  defaultValue,
+}: SortSelectProps) {
   const handleSort = useDebouncedCallback((value: string) => {
     const [sortKey, sortValue] = value.split('_');
-    setSort({ sortKey, sortValue });
+    onChange({ sortKey, sortValue });
   }, 250);
 
   return (
-    <Select
-      onValueChange={handleSort}
-      defaultValue={sort.sortKey + '_' + sort.sortValue}
-    >
+    <Select onValueChange={handleSort} defaultValue={defaultValue}>
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
