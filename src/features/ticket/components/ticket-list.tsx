@@ -2,6 +2,7 @@ import { Placeholder } from '@/components/placeholder';
 import { getTickets } from '../queries/get-tickets';
 import { searchParamsCache } from '../search-params';
 import { TicketItem } from './ticket-item';
+import { TicketPagination } from './ticket-pagination';
 import { TicketSearchInput } from './ticket-search-input';
 import { TicketSortSelect } from './ticket-sort-select';
 
@@ -48,6 +49,10 @@ export async function TicketList({ userId }: TicketListProps) {
       ) : (
         <Placeholder label="No tickets found." />
       )}
+
+      <div className="max-w-105 w-full">
+        <TicketPagination />
+      </div>
     </div>
   );
 }
