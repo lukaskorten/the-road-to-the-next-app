@@ -3,9 +3,14 @@ import { TicketsSearchParams } from '../search-params';
 
 export async function getTickets(
   userId: string | undefined,
-  searchParams: TicketsSearchParams
+  searchParams: TicketsSearchParams,
 ) {
+  const take = searchParams.size;
+  const skip = searchParams.page * searchParams.size;
+
   return await prisma.ticket.findMany({
+    take,
+    skip,
     where: {
       userId,
       title: {
