@@ -17,21 +17,22 @@ export async function getTickets(
     },
   };
 
-  const tickets = await prisma.ticket.findMany({
-    take,
-    skip,
-    where,
-    orderBy: {
-      [searchParams.sortKey]: searchParams.sortValue,
-    },
-    include: {
-      user: {
-        select: { username: true },
+  const [tickets, count] = await prisma.$transaction([
+    prisma.ticket.findMany({
+      take,
+      skip,
+      where,
+      orderBy: {
+        [searchParams.sortKey]: searchParams.sortValue,
       },
-    },
-  });
-
-  const count = await prisma.ticket.count({ where });
+      include: {
+        user: {
+          select: { username: true },
+        },
+      },
+    }),
+    prisma.ticket.count({ where }),
+  ]);
 
   return {
     list: tickets,
