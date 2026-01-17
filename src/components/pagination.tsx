@@ -1,5 +1,6 @@
 'use client';
 
+import { PaginationMetadata } from '@/utils/page-result';
 import { Button } from './ui/button';
 
 export type PageAndSize = {
@@ -9,13 +10,20 @@ export type PageAndSize = {
 
 type PaginationProps = {
   pagination: PageAndSize;
+  metadata: PaginationMetadata;
   onPagination: (pagination: PageAndSize) => void;
 };
 
-export function Pagination({ pagination, onPagination }: PaginationProps) {
+export function Pagination({
+  pagination,
+  metadata,
+  onPagination,
+}: PaginationProps) {
   const pageStartOffset = pagination.page * pagination.size + 1;
   const pageEndOffset = pageStartOffset + pagination.size - 1;
-  const label = `${pageStartOffset} to ${pageEndOffset} of X`;
+  const actualPageEndOffset =
+    pageEndOffset > metadata.count ? metadata.count : pageEndOffset;
+  const label = `${pageStartOffset} to ${actualPageEndOffset} of ${metadata.count} `;
 
   const handlePrevious = () => {
     if (pagination.page === 0) return;
@@ -38,7 +46,11 @@ export function Pagination({ pagination, onPagination }: PaginationProps) {
         >
           Previous
         </Button>
-        <Button onClick={handleNext} variant="outline">
+        <Button
+          disabled={!metadata.hasNextPage}
+          onClick={handleNext}
+          variant="outline"
+        >
           Next
         </Button>
       </div>

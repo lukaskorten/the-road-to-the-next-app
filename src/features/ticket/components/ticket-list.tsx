@@ -12,7 +12,7 @@ type TicketListProps = {
 
 export async function TicketList({ userId }: TicketListProps) {
   const searchParams = searchParamsCache.all();
-  const tickets = await getTickets(userId, searchParams);
+  const { list: tickets, metadata } = await getTickets(userId, searchParams);
 
   return (
     <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
@@ -51,7 +51,7 @@ export async function TicketList({ userId }: TicketListProps) {
       )}
 
       <div className="max-w-105 w-full">
-        <TicketPagination />
+        <TicketPagination metadata={metadata} />
       </div>
     </div>
   );
