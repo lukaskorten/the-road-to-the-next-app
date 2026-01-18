@@ -2,6 +2,13 @@
 
 import { PaginationMetadata } from '@/utils/page-result';
 import { Button } from './ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 export type PageAndSize = {
   size: number;
@@ -34,11 +41,31 @@ export function Pagination({
     onPagination({ ...pagination, page: pagination.page + 1 });
   };
 
+  const handleSize = (value: string) => {
+    const size = parseInt(value, 10);
+    onPagination({ size, page: 0 });
+  };
+
   return (
     <div className="flex justify-between items-center">
       <span className="text-sm text-muted-foreground">{label}</span>
 
       <div className="flex space-x-2">
+        <Select
+          onValueChange={handleSize}
+          defaultValue={pagination.size.toString()}
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="5">5</SelectItem>
+            <SelectItem value="10">10</SelectItem>
+            <SelectItem value="20">20</SelectItem>
+            <SelectItem value="50">50</SelectItem>
+            <SelectItem value="100">100</SelectItem>
+          </SelectContent>
+        </Select>
         <Button
           disabled={pagination.page < 1}
           onClick={handlePrevious}
