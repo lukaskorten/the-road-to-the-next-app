@@ -27,10 +27,18 @@ export default async function TicketPage({ params }: TicketPageProps) {
         ]}
       />
       <div className="flex justify-center animate-fade-from-top">
-        <div className="flex flex-col space-y-8 max-w-145 w-full">
+        <div className="max-w-145 w-full">
           <TicketItem ticket={ticket} isDetail />
-          <CommentForm ticketId={ticket.id} />
-          <CommentList ticketId={ticket.id} />
+
+          <section aria-labelledby="comments-heading" className="mt-16">
+            <h2 className="mb-2 text-lg font-semibold" id="comments-heading">
+              Comments
+            </h2>
+            <div className="flex flex-col space-y-8">
+              <CommentForm ticketId={ticket.id} />
+              <CommentList ticketId={ticket.id} />
+            </div>
+          </section>
         </div>
       </div>
     </>

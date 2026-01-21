@@ -23,10 +23,13 @@ export function CommentForm({ ticketId, comment }: CommentFormProps) {
 
   return (
     <Form action={action} actionState={actionState}>
-      <Label htmlFor="content">Comment</Label>
+      <Label htmlFor="content" className="sr-only">
+        Comment
+      </Label>
       <Textarea
         id="content"
         name="content"
+        placeholder="Add a comment"
         defaultValue={
           (actionState.payload?.get('content') as string) ?? comment?.content
         }
