@@ -29,7 +29,7 @@ export function CommentForm({ ticketId, comment }: CommentFormProps) {
       <Textarea
         id="content"
         name="content"
-        placeholder="Add a comment"
+        placeholder="What are your thoughts?"
         defaultValue={
           (actionState.payload?.get('content') as string) ?? comment?.content
         }

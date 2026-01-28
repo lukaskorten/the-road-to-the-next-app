@@ -1,24 +1,27 @@
-import { Prisma } from '@/generated/prisma/client';
+import { Card } from '@/components/ui/card';
+import { CommentWithMetadata } from '../types';
 
 type CommentItemProps = {
-  comment: Prisma.CommentGetPayload<{
-    include: { user: { select: { username: true } } };
-  }>;
+  comment: CommentWithMetadata;
+  buttons: React.ReactNode[];
 };
 
-export function CommentItem({ comment }: CommentItemProps) {
+export function CommentItem({ comment, buttons }: CommentItemProps) {
   return (
-    <div className="border p-4 rounded-lg flex flex-col gap-2">
-      <div className="text-muted-foreground text-sm flex justify-between">
-        <span className="font-semibold">{comment.user.username}</span>
-        <span>
-          {comment.createdAt.toLocaleString('de-DE', {
-            dateStyle: 'short',
-            timeStyle: 'short',
-          })}
-        </span>
-      </div>
-      <div>{comment.content}</div>
+    <div className="flex gap-x-2">
+      <Card className="flex-1 p-4 flex flex-col gap-2">
+        <div className="text-muted-foreground text-sm flex justify-between">
+          <span className="font-semibold">{comment.user.username}</span>
+          <span>
+            {comment.createdAt.toLocaleString('de-DE', {
+              dateStyle: 'short',
+              timeStyle: 'short',
+            })}
+          </span>
+        </div>
+        <p className="whitespace-pre-line">{comment.content}</p>
+      </Card>
+      <div className="flex flex-col gap-y-1">{buttons}</div>
     </div>
   );
 }
