@@ -24,7 +24,7 @@ export async function CommentList({ ticketId }: CommentListProps) {
             key={comment.id}
             comment={comment}
             ticketId={ticketId}
-            isUpdate
+            update
           />
         ) : (
           <CommentItem

@@ -16,13 +16,13 @@ import { upsertComment } from '../actions/upsert-comment';
 type CommentFormProps = {
   ticketId: string;
   comment?: Comment;
-  isUpdate?: boolean;
+  update?: boolean;
 };
 
 export function CommentForm({
   ticketId,
   comment,
-  isUpdate = false,
+  update = false,
 }: CommentFormProps) {
   const [, setEditCommentId] = useQueryState(
     'editCommentId',
@@ -33,20 +33,20 @@ export function CommentForm({
     EMPTY_ACTION_STATE,
   );
 
-  const hadleSuccess = () => {
-    if (isUpdate) {
+  const handleSuccess = () => {
+    if (update) {
       setEditCommentId(null);
     }
   };
 
   const handleCancel = () => {
-    if (isUpdate) {
+    if (update) {
       setEditCommentId(null);
     }
   };
 
   return (
-    <Form action={action} actionState={actionState} onSuccess={hadleSuccess}>
+    <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
       <Label htmlFor="content" className="sr-only">
         Comment
       </Label>
@@ -65,7 +65,7 @@ export function CommentForm({
             Cancel
           </Button>
           <SubmitButton
-            label={isUpdate ? 'Update' : 'Submit'}
+            label={update ? 'Update' : 'Submit'}
             variant="outline"
           />
         </div>
