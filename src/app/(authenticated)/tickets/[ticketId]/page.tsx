@@ -1,16 +1,23 @@
 import { notFound } from 'next/navigation';
+import { SearchParams } from 'nuqs';
 import { ticketsPath } from '@/app/paths';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CommentForm } from '@/features/comments/components/comment-form';
 import { CommentList } from '@/features/comments/components/comment-list';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
 import { getTicket } from '@/features/ticket/queries/get-ticket';
+import { searchParamsCache } from '@/features/ticket/search-params';
 
 type TicketPageProps = {
   params: Promise<{ ticketId: string }>;
+  searchParams: Promise<SearchParams>;
 };
 
-export default async function TicketPage({ params }: TicketPageProps) {
+export default async function TicketPage({
+  params,
+  searchParams,
+}: TicketPageProps) {
+  await searchParamsCache.parse(searchParams);
   const { ticketId } = await params;
   const ticket = await getTicket(ticketId);
 

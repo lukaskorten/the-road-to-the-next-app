@@ -29,8 +29,13 @@ export const paginationOptions = {
   clearOnDefault: true,
 };
 
+export const editCommentIdParser = parseAsString
+  .withDefault('')
+  .withOptions({ clearOnDefault: true, shallow: false });
+
 const parsers = {
   search: searchParser,
+  editCommentId: editCommentIdParser,
   ...sortParser,
   ...paginationParser,
 };
