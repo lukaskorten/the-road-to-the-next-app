@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { SearchParams } from 'nuqs';
+import { Suspense } from 'react';
 import { ticketsPath } from '@/app/paths';
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { CommentForm } from '@/features/comments/components/comment-form';
 import { CommentList } from '@/features/comments/components/comment-list';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
@@ -43,7 +45,16 @@ export default async function TicketPage({
             </h2>
             <div className="flex flex-col space-y-8">
               <CommentForm ticketId={ticket.id} />
-              <CommentList ticketId={ticket.id} />
+              <Suspense
+                fallback={
+                  <div className="flex flex-col space-y-2">
+                    <Skeleton className="h-21.25" />
+                    <Skeleton className="h-21.25" />
+                  </div>
+                }
+              >
+                <CommentList ticketId={ticket.id} />
+              </Suspense>
             </div>
           </section>
         </div>
