@@ -3,6 +3,7 @@ import { SearchParams } from 'nuqs';
 import { Suspense } from 'react';
 import { ticketsPath } from '@/app/paths';
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import { CardCompact } from '@/components/card-compact';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CommentForm } from '@/features/comments/components/comment-form';
 import { CommentList } from '@/features/comments/components/comment-list';
@@ -39,23 +40,23 @@ export default async function TicketPage({
         <div className="max-w-145 w-full">
           <TicketItem ticket={ticket} isDetail />
 
-          <section aria-labelledby="comments-heading" className="mt-16">
-            <h2 className="mb-2 text-lg font-semibold" id="comments-heading">
-              Comments
-            </h2>
-            <div className="flex flex-col space-y-8">
-              <CommentForm ticketId={ticket.id} />
-              <Suspense
-                fallback={
-                  <div className="flex flex-col space-y-2">
-                    <Skeleton className="h-21.25" />
-                    <Skeleton className="h-21.25" />
-                  </div>
-                }
-              >
-                <CommentList ticketId={ticket.id} />
-              </Suspense>
-            </div>
+          <section className="mt-16 flex flex-col space-y-4">
+            <CardCompact
+              title="Comments"
+              description="Share your thoughts and feedback on this ticket."
+              content={<CommentForm ticketId={ticket.id} />}
+            />
+
+            <Suspense
+              fallback={
+                <div className="flex flex-col space-y-2">
+                  <Skeleton className="h-21.25" />
+                  <Skeleton className="h-21.25" />
+                </div>
+              }
+            >
+              <CommentList ticketId={ticket.id} />
+            </Suspense>
           </section>
         </div>
       </div>
