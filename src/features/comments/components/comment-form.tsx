@@ -61,13 +61,10 @@ export function CommentForm({
       <FieldError actionState={actionState} name="content" />
       <div className="flex justify-end mt-2">
         <div className="flex gap-x-1">
-          <Button variant="secondary" onClick={handleCancel} type="reset">
+          <Button variant="outline" onClick={handleCancel} type="reset">
             Cancel
           </Button>
-          <SubmitButton
-            label={update ? 'Update' : 'Submit'}
-            variant="outline"
-          />
+          <SubmitButton label={update ? 'Update' : 'Submit'} />
         </div>
       </div>
     </Form>

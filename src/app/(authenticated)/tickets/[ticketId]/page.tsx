@@ -7,6 +7,7 @@ import { CardCompact } from '@/components/card-compact';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CommentForm } from '@/features/comments/components/comment-form';
 import { CommentList } from '@/features/comments/components/comment-list';
+import { getComments } from '@/features/comments/queries/get-comments';
 import { TicketItem } from '@/features/ticket/components/ticket-item';
 import { getTicket } from '@/features/ticket/queries/get-ticket';
 import { searchParamsCache } from '@/features/ticket/search-params';
@@ -22,7 +23,10 @@ export default async function TicketPage({
 }: TicketPageProps) {
   await searchParamsCache.parse(searchParams);
   const { ticketId } = await params;
-  const ticket = await getTicket(ticketId);
+  const [ticket, comments] = await Promise.all([
+    getTicket(ticketId),
+    getComments(ticketId),
+  ]);
 
   if (!ticket) {
     notFound();
@@ -55,7 +59,7 @@ export default async function TicketPage({
                 </div>
               }
             >
-              <CommentList ticketId={ticket.id} />
+              <CommentList ticketId={ticket.id} comments={comments} />
             </Suspense>
           </section>
         </div>
