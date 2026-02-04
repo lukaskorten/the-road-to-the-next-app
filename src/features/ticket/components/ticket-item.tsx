@@ -1,3 +1,5 @@
+'use client';
+
 import clsx from 'clsx';
 import {
   LucideMoreVertical,
@@ -26,7 +28,7 @@ type TicketItemProps = {
   isDetail?: boolean;
 };
 
-async function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
+function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
   const detailButton = (
     <Link
       prefetch
