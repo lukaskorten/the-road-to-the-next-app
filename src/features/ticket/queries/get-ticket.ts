@@ -9,5 +9,5 @@ export async function getTicket(ticketId: string) {
     include: { user: { select: { username: true } } },
   });
 
-  return { ...ticket, isOwner: isOwner(user, ticket) };
+  return ticket ? { ...ticket, isOwner: isOwner(user, ticket) } : null;
 }
