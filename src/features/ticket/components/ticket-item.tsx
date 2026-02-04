@@ -14,8 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { getAuth } from '@/features/auth/queries/get-auth';
-import { isOwner } from '@/features/auth/utils/is-owner';
 import { Prisma } from '@/generated/prisma/client';
 import { toCurrencyFromCent } from '@/utils/currency';
 import { TICKET_STATUS_ICONS } from '../constants';
@@ -24,14 +22,11 @@ import { TicketMoreButton } from './ticket-more-button';
 type TicketItemProps = {
   ticket: Prisma.TicketGetPayload<{
     include: { user: { select: { username: true } } };
-  }>;
+  }> & { isOwner: boolean | null };
   isDetail?: boolean;
 };
 
 async function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
-  const { user } = await getAuth();
-  const isTicketOwner = isOwner(user, ticket);
-
   const detailButton = (
     <Link
       prefetch
@@ -96,7 +91,7 @@ async function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
       </Card>
       <div className="flex flex-col gap-y-1">
         {isDetail ? (
-          isTicketOwner && (
+          ticket.isOwner && (
             <>
               {editButton}
               {moreButton}
@@ -105,7 +100,7 @@ async function TicketItem({ ticket, isDetail = false }: TicketItemProps) {
         ) : (
           <>
             {detailButton}
-            {isTicketOwner && editButton}
+            {ticket.isOwner && editButton}
           </>
         )}
       </div>

@@ -1,5 +1,3 @@
-import { getAuth } from '@/features/auth/queries/get-auth';
-import { isOwner } from '@/features/auth/utils/is-owner';
 import { searchParamsCache } from '@/features/ticket/search-params';
 import { CommentWithMetadata } from '../types';
 import { CommentDeleteButton } from './comment-delete-button';
@@ -13,13 +11,12 @@ type CommentListProps = {
 };
 
 export async function CommentList({ ticketId, comments }: CommentListProps) {
-  const { user } = await getAuth();
   const editCommentId = searchParamsCache.get('editCommentId');
 
   return (
     <div className="flex flex-col space-y-2">
       {comments.map((comment) =>
-        editCommentId === comment.id && isOwner(user, comment) ? (
+        editCommentId === comment.id && comment.isOwner ? (
           <CommentForm
             key={comment.id}
             comment={comment}
@@ -31,7 +28,7 @@ export async function CommentList({ ticketId, comments }: CommentListProps) {
             key={comment.id}
             comment={comment}
             buttons={[
-              ...(isOwner(user, comment)
+              ...(comment.isOwner
                 ? [
                     <CommentDeleteButton key="0" commentId={comment.id} />,
                     <CommentEditButton key="1" commentId={comment.id} />,
