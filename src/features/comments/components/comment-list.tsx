@@ -1,4 +1,8 @@
-import { searchParamsCache } from '@/features/ticket/search-params';
+'use client';
+
+import { useQueryState } from 'nuqs';
+import { Button } from '@/components/ui/button';
+import { editCommentIdParser } from '@/features/ticket/search-params';
 import { CommentWithMetadata } from '../types';
 import { CommentDeleteButton } from './comment-delete-button';
 import { CommentEditButton } from './comment-edit-button';
@@ -10,8 +14,12 @@ type CommentListProps = {
   comments: CommentWithMetadata[];
 };
 
-export async function CommentList({ ticketId, comments }: CommentListProps) {
-  const editCommentId = searchParamsCache.get('editCommentId');
+export function CommentList({ ticketId, comments }: CommentListProps) {
+  const [editCommentId] = useQueryState('editCommentId', editCommentIdParser);
+
+  const handleMore = () => {
+    console.log('more');
+  };
 
   return (
     <div className="flex flex-col space-y-2">
@@ -38,6 +46,10 @@ export async function CommentList({ ticketId, comments }: CommentListProps) {
           />
         ),
       )}
+
+      <Button onClick={handleMore} variant="ghost">
+        More
+      </Button>
     </div>
   );
 }
