@@ -1,6 +1,6 @@
 'use client';
 
-import { PaginationMetadata } from '@/utils/page-result';
+import { PaginationMetadata } from '@/utils/pagination';
 import { Button } from './ui/button';
 import {
   Select,

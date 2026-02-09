@@ -1,16 +1,17 @@
 import { Suspense } from 'react';
 import { CardCompact } from '@/components/card-compact';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Paginated } from '@/utils/pagination';
 import { CommentWithMetadata } from '../types';
 import { CommentForm } from './comment-form';
 import { CommentList } from './comment-list';
 
 type CommentsProps = {
   ticketId: string;
-  comments: CommentWithMetadata[];
+  paginatedComments: Paginated<CommentWithMetadata>;
 };
 
-export function Comments({ ticketId, comments }: CommentsProps) {
+export function Comments({ ticketId, paginatedComments }: CommentsProps) {
   return (
     <section className="mt-16 flex flex-col space-y-4">
       <CardCompact
@@ -27,7 +28,10 @@ export function Comments({ ticketId, comments }: CommentsProps) {
           </div>
         }
       >
-        <CommentList ticketId={ticketId} comments={comments} />
+        <CommentList
+          ticketId={ticketId}
+          paginatedComments={paginatedComments}
+        />
       </Suspense>
     </section>
   );

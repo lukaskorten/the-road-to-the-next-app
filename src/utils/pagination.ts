@@ -3,7 +3,7 @@ export type PaginationMetadata = {
   count: number;
 };
 
-export type PageResult<T> = {
+export type Paginated<T> = {
   list: T[];
   metadata: PaginationMetadata;
 };

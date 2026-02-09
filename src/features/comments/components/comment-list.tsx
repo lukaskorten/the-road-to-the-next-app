@@ -1,8 +1,11 @@
 'use client';
 
 import { useQueryState } from 'nuqs';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { editCommentIdParser } from '@/features/ticket/search-params';
+import { Paginated } from '@/utils/pagination';
+import { getComments } from '../queries/get-comments';
 import { CommentWithMetadata } from '../types';
 import { CommentDeleteButton } from './comment-delete-button';
 import { CommentEditButton } from './comment-edit-button';
@@ -11,14 +14,18 @@ import { CommentItem } from './comment-item';
 
 type CommentListProps = {
   ticketId: string;
-  comments: CommentWithMetadata[];
+  paginatedComments: Paginated<CommentWithMetadata>;
 };
 
-export function CommentList({ ticketId, comments }: CommentListProps) {
+export function CommentList({ ticketId, paginatedComments }: CommentListProps) {
   const [editCommentId] = useQueryState('editCommentId', editCommentIdParser);
+  const [comments, setComments] = useState(paginatedComments.list);
+  const [pagination, setPagination] = useState(paginatedComments.metadata);
 
-  const handleMore = () => {
-    console.log('more');
+  const handleMore = async () => {
+    const { list, metadata } = await getComments(ticketId, comments.length);
+    setComments((prevComments) => [...prevComments, ...list]);
+    setPagination(metadata);
   };
 
   return (
@@ -46,10 +53,11 @@ export function CommentList({ ticketId, comments }: CommentListProps) {
           />
         ),
       )}
-
-      <Button onClick={handleMore} variant="ghost">
-        More
-      </Button>
+      {pagination.hasNextPage && (
+        <Button onClick={handleMore} variant="ghost">
+          More
+        </Button>
+      )}
     </div>
   );
 }

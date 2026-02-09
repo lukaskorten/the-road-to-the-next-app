@@ -3,7 +3,7 @@
 import { useQueryState, useQueryStates } from 'nuqs';
 import { useEffect, useRef } from 'react';
 import { Pagination } from '@/components/pagination';
-import { PaginationMetadata } from '@/utils/page-result';
+import { PaginationMetadata } from '@/utils/pagination';
 import {
   paginationOptions,
   paginationParser,

@@ -39,9 +39,21 @@ const tickets = [
 ];
 
 const comments = [
-  { content: 'This is the first comment' },
-  { content: 'This is the second comment' },
-  { content: 'This is the third comment' },
+  { content: 'Started working on this ticket.' },
+  { content: 'Initial implementation complete, ready for review.' },
+  { content: 'Fixed the bug mentioned in the requirements.' },
+  { content: 'All tests are passing locally.' },
+  { content: 'Needs feedback on the approach before proceeding.' },
+  { content: 'Refactored the code for better maintainability.' },
+  { content: 'Performance benchmarks show a 40% improvement.' },
+  { content: 'Documentation updated with examples.' },
+  { content: 'Ready for deployment to staging environment.' },
+  { content: 'Merged to main branch successfully.' },
+  { content: 'User acceptance testing approved.' },
+  { content: 'Deployed to production.' },
+  { content: 'Monitoring shows no issues in production.' },
+  { content: 'Closed as completed.' },
+  { content: 'Available for the next sprint.' },
 ];
 
 async function seed() {

@@ -39,7 +39,7 @@ export default async function TicketPage({
       <div className="flex justify-center animate-fade-from-top">
         <div className="max-w-145 w-full">
           <TicketItem ticket={ticket} isDetail />
-          <Comments ticketId={ticket.id} comments={comments} />
+          <Comments ticketId={ticket.id} paginatedComments={comments} />
         </div>
       </div>
     </>
