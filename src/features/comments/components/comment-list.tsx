@@ -20,12 +20,12 @@ type CommentListProps = {
 export function CommentList({ ticketId, paginatedComments }: CommentListProps) {
   const [editCommentId] = useQueryState('editCommentId', editCommentIdParser);
   const [comments, setComments] = useState(paginatedComments.list);
-  const [pagination, setPagination] = useState(paginatedComments.metadata);
+  const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
   const handleMore = async () => {
     const { list, metadata } = await getComments(ticketId, comments.length);
     setComments((prevComments) => [...prevComments, ...list]);
-    setPagination(metadata);
+    setMetadata(metadata);
   };
 
   return (
@@ -53,7 +53,7 @@ export function CommentList({ ticketId, paginatedComments }: CommentListProps) {
           />
         ),
       )}
-      {pagination.hasNextPage && (
+      {metadata.hasNextPage && (
         <Button onClick={handleMore} variant="ghost">
           More
         </Button>
