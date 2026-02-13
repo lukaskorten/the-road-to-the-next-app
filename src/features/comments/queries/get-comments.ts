@@ -16,7 +16,7 @@ export async function getComments(ticketId: string, offset: number = 0) {
       skip,
       take,
       include: { user: { select: { username: true } } },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
     }),
     prisma.comment.count({ where }),
   ]);

@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { ActionState } from '../utils/to-action-state';
 
-type OnArgs = {
-  actionState: ActionState;
+type OnArgs<T> = {
+  actionState: ActionState<T>;
 };
 
-type UseActionFeedbackOptions = {
-  onSuccess?: (args: OnArgs) => void;
-  onError?: (args: OnArgs) => void;
+type UseActionFeedbackOptions<T> = {
+  onSuccess?: (args: OnArgs<T>) => void;
+  onError?: (args: OnArgs<T>) => void;
 };
 
-export function useActionFeedback(
-  actionState: ActionState,
-  options: UseActionFeedbackOptions
+export function useActionFeedback<T>(
+  actionState: ActionState<T>,
+  options: UseActionFeedbackOptions<T>,
 ) {
   const timestampRef = useRef(actionState.timestamp);
 
