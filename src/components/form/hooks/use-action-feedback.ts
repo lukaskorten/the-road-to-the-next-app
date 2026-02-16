@@ -22,7 +22,6 @@ export function useActionFeedback<T>(
     // with the current one to avoid unnecessary calls.
 
     if (timestampRef.current === actionState.timestamp) return;
-    console.log('actionState changed:', actionState);
     if (actionState.status === 'ERROR') {
       options.onError?.({ actionState });
     }
