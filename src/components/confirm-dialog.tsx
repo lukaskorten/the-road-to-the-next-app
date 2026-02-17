@@ -25,7 +25,11 @@ type ConfirmDialogProps = {
   title?: string;
   description?: string;
   action: () => Promise<ActionState>;
-  trigger: React.ReactElement<{ onClick: MouseEventHandler }>;
+  trigger:
+    | React.ReactElement<{ onClick: MouseEventHandler }>
+    | ((
+        isPending: boolean,
+      ) => React.ReactElement<{ onClick: MouseEventHandler }>);
   onSuccess?: () => void;
 };
 
@@ -74,11 +78,14 @@ export function useConfirmDialog({
     },
   });
 
-  const dialogTrigger = cloneElement(trigger, {
-    onClick: () => {
-      setIsOpen((state) => !state);
+  const dialogTrigger = cloneElement(
+    typeof trigger === 'function' ? trigger(isPending) : trigger,
+    {
+      onClick: () => {
+        setIsOpen((state) => !state);
+      },
     },
-  });
+  );
 
   const dialog = (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
