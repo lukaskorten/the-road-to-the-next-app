@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import { CardCompact } from '@/components/card-compact';
 import { Button } from '@/components/ui/button';
 import { editCommentIdParser } from '@/features/ticket/search-params';
-import { Paginated } from '@/utils/pagination';
+import { Paginated } from '@/types/pagination';
 import { getComments } from '../queries/get-comments';
 import { CommentWithMetadata } from '../types';
 import { CommentDeleteButton } from './comment-delete-button';
@@ -24,9 +24,9 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
   const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
   const handleMore = async () => {
-    const { list, metadata } = await getComments(ticketId, comments.length);
-    setComments((prevComments) => [...prevComments, ...list]);
-    setMetadata(metadata);
+    const moreComments = await getComments(ticketId, metadata.cursor);
+    setComments((prevComments) => [...prevComments, ...moreComments.list]);
+    setMetadata(moreComments.metadata);
   };
 
   const handleCommentDeleted = (commentId: string) => {
