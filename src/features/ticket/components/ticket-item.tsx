@@ -1,18 +1,18 @@
 import clsx from 'clsx';
 import {
-  LucideMoreVertical,
-  LucidePen,
-  LucideSquareArrowOutUpRight,
+    LucideMoreVertical,
+    LucidePen,
+    LucideSquareArrowOutUpRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { ticketEditPath, ticketPath } from '@/app/paths';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
 import { Prisma } from '@/generated/prisma/client';
 import { toCurrencyFromCent } from '@/utils/currency';

@@ -1,7 +1,8 @@
 'use client';
 
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useQueryState } from 'nuqs';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { CardCompact } from '@/components/card-compact';
 import { Button } from '@/components/ui/button';
 import { editCommentIdParser } from '@/features/ticket/search-params';
@@ -20,30 +21,30 @@ type CommentsProps = {
 
 export function Comments({ ticketId, paginatedComments }: CommentsProps) {
   const [editCommentId] = useQueryState('editCommentId', editCommentIdParser);
-  const [comments, setComments] = useState(paginatedComments.list);
-  const [metadata, setMetadata] = useState(paginatedComments.metadata);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+    useInfiniteQuery({
+      queryKey: ['comments', ticketId],
+      queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
+      initialPageParam: paginatedComments.metadata.cursor,
+      getNextPageParam: (lastPage) =>
+        lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
+      initialData: {
+        pages: [
+          {
+            list: paginatedComments.list,
+            metadata: paginatedComments.metadata,
+          },
+        ],
+        pageParams: [],
+      },
+    });
 
-  const handleMore = async () => {
-    const moreComments = await getComments(ticketId, metadata.cursor);
-    setComments((prevComments) => [...prevComments, ...moreComments.list]);
-    setMetadata(moreComments.metadata);
-  };
+  const comments = data.pages.flatMap((page) => page.list);
 
-  const handleCommentDeleted = (commentId: string) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== commentId),
-    );
-  };
-
-  const handleUpdated = (comment: CommentWithMetadata) => {
-    setComments((prevComments) =>
-      prevComments.map((c) => (c.id === comment.id ? comment : c)),
-    );
-  };
-
-  const handleCreated = (comment: CommentWithMetadata) => {
-    setComments((prevComments) => [comment, ...prevComments]);
-  };
+  const handleMore = () => fetchNextPage();
+  const handleCommentDeleted = () => refetch();
+  const handleUpdated = () => refetch();
+  const handleCreated = () => refetch();
 
   return (
     <section className="mt-16 flex flex-col space-y-4">
@@ -72,7 +73,7 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
                         <CommentDeleteButton
                           key="0"
                           commentId={comment.id}
-                          onDeleted={() => handleCommentDeleted(comment.id)}
+                          onDeleted={() => handleCommentDeleted()}
                         />,
                         <CommentEditButton key="1" commentId={comment.id} />,
                       ]
@@ -82,8 +83,12 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
             )}
           </Fragment>
         ))}
-        {metadata.hasNextPage && (
-          <Button onClick={handleMore} variant="ghost">
+        {hasNextPage && (
+          <Button
+            onClick={handleMore}
+            variant="ghost"
+            disabled={isFetchingNextPage}
+          >
             More
           </Button>
         )}
