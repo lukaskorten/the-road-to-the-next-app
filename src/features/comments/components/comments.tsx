@@ -1,13 +1,13 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useQueryState } from 'nuqs';
 import { Fragment } from 'react';
 import { CardCompact } from '@/components/card-compact';
 import { Button } from '@/components/ui/button';
 import { editCommentIdParser } from '@/features/ticket/search-params';
 import { Paginated } from '@/types/pagination';
-import { getComments } from '../queries/get-comments';
+import { CommentCursor, getComments } from '../queries/get-comments';
 import { CommentWithMetadata } from '../types';
 import { CommentDeleteButton } from './comment-delete-button';
 import { CommentEditButton } from './comment-edit-button';
@@ -21,11 +21,13 @@ type CommentsProps = {
 
 export function Comments({ ticketId, paginatedComments }: CommentsProps) {
   const [editCommentId] = useQueryState('editCommentId', editCommentIdParser);
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+  const queryKey = ['comments', ticketId];
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['comments', ticketId],
+      queryKey,
       queryFn: ({ pageParam }) => getComments(ticketId, pageParam),
-      initialPageParam: paginatedComments.metadata.cursor,
+      initialPageParam: undefined as CommentCursor | undefined,
       getNextPageParam: (lastPage) =>
         lastPage.metadata.hasNextPage ? lastPage.metadata.cursor : undefined,
       initialData: {
@@ -35,16 +37,18 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
             metadata: paginatedComments.metadata,
           },
         ],
-        pageParams: [],
+        pageParams: [undefined],
       },
     });
 
+  const queryClient = useQueryClient();
   const comments = data.pages.flatMap((page) => page.list);
 
   const handleMore = () => fetchNextPage();
-  const handleCommentDeleted = () => refetch();
-  const handleUpdated = () => refetch();
-  const handleCreated = () => refetch();
+  const handleCommentDeleted = () =>
+    queryClient.invalidateQueries({ queryKey });
+  const handleUpdated = () => queryClient.invalidateQueries({ queryKey });
+  const handleCreated = () => queryClient.invalidateQueries({ queryKey });
 
   return (
     <section className="mt-16 flex flex-col space-y-4">
