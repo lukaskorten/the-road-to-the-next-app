@@ -2,9 +2,9 @@
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { useQueryState } from 'nuqs';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { CardCompact } from '@/components/card-compact';
-import { Button } from '@/components/ui/button';
 import { editCommentIdParser } from '@/features/ticket/search-params';
 import { Paginated } from '@/types/pagination';
 import { CommentCursor, getComments } from '../queries/get-comments';
@@ -41,14 +41,21 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
       },
     });
 
+  const { ref, inView } = useInView();
+
   const queryClient = useQueryClient();
   const comments = data.pages.flatMap((page) => page.list);
 
-  const handleMore = () => fetchNextPage();
   const handleCommentDeleted = () =>
     queryClient.invalidateQueries({ queryKey });
   const handleUpdated = () => queryClient.invalidateQueries({ queryKey });
   const handleCreated = () => queryClient.invalidateQueries({ queryKey });
+
+  useEffect(() => {
+    if (hasNextPage && inView && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, inView, isFetchingNextPage, fetchNextPage]);
 
   return (
     <section className="mt-16 flex flex-col space-y-4">
@@ -87,15 +94,13 @@ export function Comments({ ticketId, paginatedComments }: CommentsProps) {
             )}
           </Fragment>
         ))}
-        {hasNextPage && (
-          <Button
-            onClick={handleMore}
-            variant="ghost"
-            disabled={isFetchingNextPage}
-          >
-            More
-          </Button>
-        )}
+        <div ref={ref}>
+          {!hasNextPage && (
+            <p className="text-sm text-muted italic text-center">
+              No more comments.
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );

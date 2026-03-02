@@ -12,7 +12,7 @@ export async function getComments(ticketId: string, cursor?: CommentCursor) {
   const { user } = await getAuth();
   const where = { ticketId };
   const skip = cursor ? 1 : 0;
-  const take = 5;
+  const take = 2;
 
   const [comments, count] = await prisma.$transaction([
     prisma.comment.findMany({
@@ -42,7 +42,7 @@ export async function getComments(ticketId: string, cursor?: CommentCursor) {
 }
 
 function toCursor(
-  comment?: Prisma.CommentGetPayload<undefined>,
+  comment?: Prisma.CommentGetPayload<undefined>
 ): CommentCursor | undefined {
   return comment && { id: comment.id, createdAt: comment.createdAt };
 }
