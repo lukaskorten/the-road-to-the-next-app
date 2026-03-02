@@ -1,3 +1,5 @@
+import { getAuth } from '@/features/auth/queries/get-auth';
+import { isOwner } from '@/features/auth/utils/is-owner';
 import { TicketWhereInput } from '@/generated/prisma/models';
 import { prisma } from '@/lib/prisma';
 import { TicketsSearchParams } from '../search-params';
@@ -6,6 +8,7 @@ export async function getTickets(
   userId: string | undefined,
   searchParams: TicketsSearchParams,
 ) {
+  const { user } = await getAuth();
   const take = searchParams.size;
   const skip = searchParams.page * searchParams.size;
 
@@ -35,7 +38,10 @@ export async function getTickets(
   ]);
 
   return {
-    list: tickets,
+    list: tickets.map((ticket) => ({
+      ...ticket,
+      isOwner: isOwner(user, ticket),
+    })),
     metadata: {
       hasNextPage: skip + tickets.length < count,
       count,

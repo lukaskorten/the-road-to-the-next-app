@@ -11,6 +11,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { prisma } from '@/lib/prisma';
+import { CommentWithMetadata } from '../types';
 
 const upsertCommentSchema = z.object({
   content: z.string().min(1).max(1024),
@@ -19,10 +20,12 @@ const upsertCommentSchema = z.object({
 export async function upsertComment(
   commentId: string | undefined,
   ticketId: string,
-  _actionState: ActionState,
+  _actionState: ActionState<CommentWithMetadata>,
   formData: FormData,
-) {
+): Promise<ActionState<CommentWithMetadata>> {
   const { user } = await getAuthOrRedirect();
+
+  let upsertedComment: CommentWithMetadata;
 
   try {
     if (commentId) {
@@ -49,11 +52,13 @@ export async function upsertComment(
       ticketId: ticket.id,
     };
 
-    await prisma.comment.upsert({
+    const dbComment = await prisma.comment.upsert({
       where: { id: commentId ?? '' },
       update: dbData,
       create: dbData,
+      include: { user: { select: { username: true } } },
     });
+    upsertedComment = { ...dbComment, isOwner: true };
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
@@ -64,5 +69,5 @@ export async function upsertComment(
     ? 'Comment updated successfully'
     : 'Comment created successfully';
 
-  return toSuccessActionState(message);
+  return toSuccessActionState(message, upsertedComment);
 }

@@ -5,24 +5,30 @@ import { useActionState } from 'react';
 import { FieldError } from '@/components/form/field-error';
 import { Form } from '@/components/form/form';
 import { SubmitButton } from '@/components/form/submit-button';
-import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
+import {
+  ActionState,
+  emptyActionState,
+} from '@/components/form/utils/to-action-state';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { editCommentIdParser } from '@/features/ticket/search-params';
 import { Comment } from '@/generated/prisma/client';
 import { upsertComment } from '../actions/upsert-comment';
+import { CommentWithMetadata } from '../types';
 
 type CommentFormProps = {
   ticketId: string;
   comment?: Comment;
   update?: boolean;
+  onSuccess?: (comment: CommentWithMetadata) => void;
 };
 
 export function CommentForm({
   ticketId,
   comment,
   update = false,
+  onSuccess,
 }: CommentFormProps) {
   const [, setEditCommentId] = useQueryState(
     'editCommentId',
@@ -30,12 +36,16 @@ export function CommentForm({
   );
   const [actionState, action] = useActionState(
     upsertComment.bind(null, comment?.id, ticketId),
-    EMPTY_ACTION_STATE,
+    emptyActionState<CommentWithMetadata>(),
   );
 
-  const handleSuccess = () => {
+  const handleSuccess = (actionState: ActionState<CommentWithMetadata>) => {
     if (update) {
       setEditCommentId(null);
+    }
+    const comment = actionState.data;
+    if (comment) {
+      onSuccess?.(comment);
     }
   };
 

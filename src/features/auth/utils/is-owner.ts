@@ -6,10 +6,10 @@ type Entity = {
 
 export function isOwner(
   authUser: User | undefined | null,
-  entity: Entity | undefined | null
+  entity: Entity | undefined | null,
 ) {
   if (!authUser || !entity) {
-    return null;
+    return false;
   }
 
   if (!entity.userId) {
