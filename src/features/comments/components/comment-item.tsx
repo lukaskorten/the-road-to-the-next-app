@@ -12,7 +12,9 @@ export function CommentItem({ comment, buttons }: CommentItemProps) {
     <div className="flex gap-x-2">
       <Card className="flex-1 p-4 flex flex-col gap-2">
         <div className="text-muted-foreground text-sm flex justify-between">
-          <span className="font-semibold">{comment.user.username}</span>
+          <span className="font-semibold">
+            {comment.user?.username ?? 'Unknown User'}
+          </span>
           <span>{format(comment.createdAt, 'dd.MM.yyyy, HH:mm')}</span>
         </div>
         <p className="whitespace-pre-line">{comment.content}</p>
