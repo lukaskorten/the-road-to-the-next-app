@@ -12,6 +12,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Prisma Studio
 
+Run the prisma studio app
+
 ```bash
 npx prisma studio
+```
+
+Run the db migration
+
+```bash
+npx prisma db push
 ```
