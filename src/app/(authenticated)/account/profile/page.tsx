@@ -1,3 +1,4 @@
+import { CardCompact } from '@/components/card-compact';
 import { Heading } from '@/components/heading';
 import { getAuth } from '@/features/auth/queries/get-auth';
 import { ProfileEditForm } from '@/features/profile/components/profile-edit-form';
@@ -15,8 +16,13 @@ export default async function AccountProfilePage() {
       <AccountTabs />
       <Heading title="Profile" description="All your profile information" />
 
-      <div className="w-full max-w-105">
-        <ProfileEditForm user={user} />
+      <div className="flex-1 flex flex-col items-center">
+        <CardCompact
+          title="Edit Profile"
+          description="Edit your profile information."
+          className="w-full max-w-105 animate-fade-from-top"
+          content={<ProfileEditForm user={user} />}
+        />
       </div>
     </div>
   );
