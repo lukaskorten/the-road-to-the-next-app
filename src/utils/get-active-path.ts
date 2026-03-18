@@ -1,5 +1,4 @@
 import { closest } from 'fastest-levenshtein';
-import { getBaseUrl } from './url';
 
 export function getActivePath(
   path: string,
@@ -11,6 +10,4 @@ export function getActivePath(
   const activePathIndex = paths.indexOf(closestPath);
 
   return { active: closestPath, activeIndex: activePathIndex };
-
-  return `${getBaseUrl()}/reset-password`
 }
