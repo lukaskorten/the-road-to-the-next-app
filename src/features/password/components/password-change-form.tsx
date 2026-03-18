@@ -7,25 +7,25 @@ import { SubmitButton } from '@/components/form/submit-button';
 import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { forgotPassword } from '../actions/forgot-password';
+import { changePassword } from '../actions/change-password';
 
-export function PasswordForgotForm() {
+export function PasswordChangeForm() {
   const [actionState, action] = useActionState(
-    forgotPassword,
+    changePassword,
     EMPTY_ACTION_STATE
   );
 
   return (
     <Form action={action} actionState={actionState}>
-      <Label htmlFor="email">Email</Label>
+      <Label htmlFor="password">Current Password</Label>
       <Input
-        id="email"
-        name="email"
-        type="email"
-        placeholder="Email"
-        defaultValue={actionState.payload?.get('email') as string}
+        id="password"
+        name="password"
+        type="password"
+        autoComplete="current-password"
+        defaultValue={(actionState.payload?.get('password') as string) ?? ''}
       />
-      <FieldError actionState={actionState} name="email" />
+      <FieldError actionState={actionState} name="password" />
 
       <SubmitButton label="Send Password Reset Email" />
     </Form>

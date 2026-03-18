@@ -1,6 +1,6 @@
 import { CardCompact } from '@/components/card-compact';
 import { Heading } from '@/components/heading';
-import { PasswordEditForm } from '@/features/password/components/password-edit-form';
+import { PasswordChangeForm } from '@/features/password/components/password-change-form';
 import { AccountTabs } from '../_navigation/account-tabs';
 
 export default function AccountPasswordPage() {
@@ -17,7 +17,7 @@ export default function AccountPasswordPage() {
           title="Change Password"
           description="Enter your current password."
           className="w-full max-w-105 animate-fade-from-top"
-          content={<PasswordEditForm />}
+          content={<PasswordChangeForm />}
         />
       </div>
     </div>
