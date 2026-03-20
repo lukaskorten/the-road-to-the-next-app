@@ -63,6 +63,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.8.1",
     "prisma": "^7.1.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",

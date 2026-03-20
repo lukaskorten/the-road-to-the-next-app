@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import React, { ReactNode } from 'react';
 import { AppHeader } from '@/app/_navigation/app-header';
 import { AppSidebar } from '@/app/_navigation/sidebar/app-sidebar';
 import { SidebarInset } from '@/components/ui/sidebar';
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html suppressHydrationWarning lang="en">

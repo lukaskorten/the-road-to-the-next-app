@@ -3,13 +3,13 @@
 import { isPast } from 'date-fns';
 import { redirect } from 'next/navigation';
 import z from 'zod';
-import { setCookie } from '@/actions/cookies';
-import { signInPath } from '@/app/paths';
+import { ticketsPath } from '@/app/paths';
 import {
   ActionState,
   fromErrorToActionState,
   toErrorActionState,
 } from '@/components/form/utils/to-action-state';
+import { createSession } from '@/features/auth/utils/session';
 import { prisma } from '@/lib/prisma';
 import { hashToken } from '@/utils/crypto';
 import { hashPassword } from '../utils/hash-and-verify';
@@ -60,13 +60,10 @@ export async function resetPassword(
 
     await prisma.resetPaswordToken.deleteMany({ where: { userId } });
     await prisma.session.deleteMany({ where: { userId } });
+    await createSession(userId);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
-  await setCookie(
-    'toast',
-    'Password reset successful. Please sign in with your new password.'
-  );
-  redirect(signInPath());
+  redirect(ticketsPath());
 }

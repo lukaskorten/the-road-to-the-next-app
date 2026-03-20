@@ -29,15 +29,8 @@ export async function updateProfile(
   formData: FormData
 ) {
   const { user } = await getAuthOrRedirect();
-
   try {
-    const data = updateUserSchema.parse({
-      ...user,
-      username: formData.get('username'),
-      avatarUrl: formData.get('avatarUrl'),
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-    });
+    const data = updateUserSchema.parse(Object.fromEntries(formData.entries()));
 
     await prisma.user.update({
       where: { id: user.id },

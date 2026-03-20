@@ -43,7 +43,11 @@ export function NavUser({ user }: { user: User }) {
         </AvatarFallback>
       </Avatar>
       <div className="grid flex-1 text-left text-sm leading-tight">
-        <span className="truncate font-medium">{user.username}</span>
+        <span className="truncate font-medium">
+          {user.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user.username}
+        </span>
         <span className="truncate text-xs">{user.email}</span>
       </div>
     </>
