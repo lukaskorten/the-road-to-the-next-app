@@ -3,6 +3,7 @@
 import { isPast } from 'date-fns';
 import { redirect } from 'next/navigation';
 import z from 'zod';
+import { setCookie } from '@/actions/cookies';
 import { ticketsPath } from '@/app/paths';
 import {
   ActionState,
@@ -65,5 +66,9 @@ export async function resetPassword(
     return fromErrorToActionState(error, formData);
   }
 
+  await setCookie(
+    'toast',
+    'Your password has been reset and you’re now signed in.'
+  );
   redirect(ticketsPath());
 }
