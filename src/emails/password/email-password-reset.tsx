@@ -47,5 +47,5 @@ export default function EmailPasswordReset({
 
 EmailPasswordReset.PreviewProps = {
   toName: 'Lukas Korten',
-  url: 'https://example.com/reset-password',
+  url: 'http://localhost:3000/password-reset/abc123',
 };
