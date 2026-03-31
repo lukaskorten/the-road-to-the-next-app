@@ -8,6 +8,7 @@ import {
   toSuccessActionState,
 } from '@/components/form/utils/to-action-state';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { sendEmailPasswordReset } from '@/features/password/emails/send-email-password-reset';
 import { generatePasswordResetLink } from '../utils/generate-password-reset-link';
 import { verifyPassword } from '../utils/hash-and-verify';
 
@@ -33,8 +34,7 @@ export async function changePassword(
     }
 
     const link = await generatePasswordResetLink(user.id);
-    console.log(link);
-    //todo: send email with reset link
+    await sendEmailPasswordReset(user.username, user.email, link);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
