@@ -1,4 +1,4 @@
-import EmailPasswordReset from '@/emails/password/email-password-reset';
+import PasswordResetEmail from '@/emails/password/password-reset-email';
 import { resend } from '@/lib/resend';
 
 export async function sendEmailPasswordReset(
@@ -9,7 +9,11 @@ export async function sendEmailPasswordReset(
   return await resend.emails.send({
     from: 'no-reply@app.tickets.code-snacks.de',
     to: email,
-    subject: 'Password Reset form TicketBounty',
-    react: EmailPasswordReset({ toName: username, url: resetPasswordLink }),
+    subject: 'Password Reset Request from TicketBounty',
+    react: PasswordResetEmail({
+      toName: username,
+      userEmail: email,
+      resetUrl: resetPasswordLink,
+    }),
   });
 }
