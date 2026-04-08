@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { ticketsPath } from '@/app/paths';
+import { signInPath, ticketsPath } from '@/app/paths';
 import {
   ActionState,
   fromErrorToActionState,
@@ -11,6 +11,8 @@ import {
 import { hashPassword } from '@/features/password/utils/hash-and-verify';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
+import { getBaseUrl } from '@/utils/url';
+import { sendWelcomeEmail } from '../emails/send-email-welcome';
 import { createSession } from '../utils/session';
 
 const signUpSchema = z
@@ -49,6 +51,7 @@ export async function signUp(_: ActionState, formData: FormData) {
     });
 
     await createSession(user.id);
+    await sendWelcomeEmail(username, email, getBaseUrl() + signInPath());
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -62,6 +65,5 @@ export async function signUp(_: ActionState, formData: FormData) {
 
     return fromErrorToActionState(error, formData);
   }
-
   redirect(ticketsPath());
 }
