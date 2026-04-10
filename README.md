@@ -23,3 +23,19 @@ Run the db migration
 ```bash
 npx prisma db push
 ```
+
+## Resend
+
+Run e-mail preview dev server
+
+```bash
+npm run email
+```
+
+## Inngest
+
+Run the inngest dev server
+
+```bash
+npx inngest-cli@latest dev
+```
