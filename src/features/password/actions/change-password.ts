@@ -9,6 +9,7 @@ import {
 } from '@/components/form/utils/to-action-state';
 import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { inngest } from '@/lib/inngest';
+import { passwordReset } from '../events/reset-password-event';
 import { verifyPassword } from '../utils/hash-and-verify';
 
 const changePasswordSchema = z.object({
@@ -32,10 +33,7 @@ export async function changePassword(
       return toErrorActionState('Invalid password', formData);
     }
 
-    await inngest.send({
-      name: 'app/password.reset',
-      data: { userId: user.id },
-    });
+    await inngest.send(passwordReset.create({ userId: user.id }));
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
