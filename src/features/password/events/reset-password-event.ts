@@ -23,6 +23,10 @@ export const resetPasswordEvent = inngest.createFunction(
       link
     );
 
+    if (result.error) {
+      throw new Error(`${result.error.name}: ${result.error.message}`);
+    }
+
     return { event, body: result };
   }
 );
