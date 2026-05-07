@@ -6,10 +6,12 @@ const users = [
   {
     username: 'admin',
     email: 'admin@admin.com',
+    emailVerified: true,
   },
   {
     username: 'lukas',
     email: 'mail@lukas-korten.de',
+    emailVerified: false,
   },
 ];
 

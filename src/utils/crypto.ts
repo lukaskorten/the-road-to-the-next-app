@@ -1,3 +1,5 @@
+import type { RandomReader } from '@oslojs/crypto/random';
+import { generateRandomString } from '@oslojs/crypto/random';
 import { sha256 } from '@oslojs/crypto/sha2';
 import {
   encodeBase32LowerCaseNoPadding,
@@ -12,4 +14,15 @@ export function generateRandomToken() {
 
 export function hashToken(token: string) {
   return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+}
+
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const random: RandomReader = {
+  read(bytes: Uint8Array): void {
+    crypto.getRandomValues(bytes);
+  },
+};
+
+export function generateRandomCode() {
+  return generateRandomString(random, ALPHABET, 8);
 }
