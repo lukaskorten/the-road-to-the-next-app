@@ -19,3 +19,6 @@ export const passwordResetPath = (): Route => '/password-reset' as Route;
 
 export const accountProfilePath = (): Route => '/account/profile' as Route;
 export const accountPasswordPath = (): Route => '/account/password' as Route;
+
+export const emailVerificationPath = (): Route =>
+  '/email-verification' as Route;
