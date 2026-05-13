@@ -19,7 +19,7 @@ const emailVerificationSchema = z.object({
 });
 
 export async function verifyEmail(_: ActionState, formData: FormData) {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
 
   try {
     const { code } = emailVerificationSchema.parse(

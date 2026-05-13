@@ -13,6 +13,7 @@ import { Prisma } from '@/generated/prisma/client';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { welcome } from '../events/welcome-event';
+import { generateEmailVerificationToken } from '../utils/generate-email-verification-token';
 import { createSession } from '../utils/session';
 
 const signUpSchema = z
@@ -52,6 +53,8 @@ export async function signUp(_: ActionState, formData: FormData) {
 
     await createSession(user.id);
     await inngest.send(welcome.create({ userId: user.id }));
+    const code = await generateEmailVerificationToken(user.id, user.email);
+    console.log(code); // todo: send email instead
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
