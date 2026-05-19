@@ -20,7 +20,7 @@ function getAdminReportWindowHours() {
   return windowHours;
 }
 
-export const adminReportEvent = inngest.createFunction(
+export const adminReportJob = inngest.createFunction(
   {
     id: 'admin-report',
     name: 'Admin Report',

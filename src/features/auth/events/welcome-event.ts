@@ -6,14 +6,14 @@ import { getBaseUrl } from '@/utils/url';
 import { sendWelcomeEmail } from '../emails/send-email-welcome';
 
 type WelcomePayload = { userId: string };
-export const welcome = eventType('app/welcome', {
+export const welcomeEvent = eventType('app/auth.welcome', {
   schema: staticSchema<WelcomePayload>(),
 });
 
-export const welcomeEvent = inngest.createFunction(
+export const welcome = inngest.createFunction(
   {
     id: 'welcome',
-    triggers: [welcome],
+    triggers: [welcomeEvent],
   },
   async ({ event, step }) => {
     const { userId } = event.data;

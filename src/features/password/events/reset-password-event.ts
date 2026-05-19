@@ -6,12 +6,12 @@ import { generatePasswordResetLink } from '../utils/generate-password-reset-link
 
 type PasswordResetPayload = { userId: string };
 
-export const passwordReset = eventType('app/password.reset', {
+export const passwordResetEvent = eventType('app/password.reset', {
   schema: staticSchema<PasswordResetPayload>(),
 });
 
-export const resetPasswordEvent = inngest.createFunction(
-  { id: 'reset-password', triggers: [passwordReset] },
+export const resetPassword = inngest.createFunction(
+  { id: 'reset-password', triggers: [passwordResetEvent] },
   async ({ event }) => {
     const { userId } = event.data;
 
