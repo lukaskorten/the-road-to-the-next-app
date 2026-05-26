@@ -16,11 +16,13 @@ model User {
   lastName                String?
   email                   String                   @unique
   emailVerified           Boolean                  @default(false)
+  pendingEmail            String?                  @unique
+  pendingEmailRequestedAt DateTime?
   passwordHash            String
   sessions                Session[]
   tickets                 Ticket[]
   comments                Comment[]
-  resetPaswordTokens      ResetPaswordToken[]
+  resetPasswordTokens     ResetPasswordToken[]
   emailVerificationTokens EmailVerificationToken[]
 }
 
@@ -28,14 +30,22 @@ model EmailVerificationToken {
   id        String   @id @default(cuid())
   code      String
   email     String
+  purpose   EmailVerificationPurpose @default(SIGN_UP)
   expiresAt DateTime
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([userId, purpose])
+  @@index([email, purpose])
 }
 
-model ResetPaswordToken {
+enum EmailVerificationPurpose {
+  SIGN_UP
+  EMAIL_CHANGE
+}
+
+model ResetPasswordToken {
   tokenHash String   @id
   expiresAt DateTime
   userId    String
