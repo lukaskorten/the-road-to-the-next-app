@@ -29,6 +29,11 @@ export async function updateEmail(
       Object.fromEntries(formData.entries())
     );
 
+    const existingUserCount = await prisma.user.count({ where: { email } });
+    if (existingUserCount > 0) {
+      return toErrorActionState('Email is already in use', formData);
+    }
+
     await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -55,5 +60,8 @@ export async function updateEmail(
   }
 
   revalidatePath(accountProfilePath());
-  return toSuccessActionState('Email updated successfully');
+  return toSuccessActionState(
+    'Check your email for the verification code',
+    formData
+  );
 }

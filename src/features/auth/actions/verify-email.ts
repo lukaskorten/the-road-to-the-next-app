@@ -9,6 +9,7 @@ import {
   fromErrorToActionState,
   toErrorActionState,
 } from '@/components/form/utils/to-action-state';
+import { EmailVerificationPurpose } from '@/generated/prisma/enums';
 import { prisma } from '@/lib/prisma';
 import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { createSession } from '../utils/session';
@@ -26,27 +27,43 @@ export async function verifyEmail(_: ActionState, formData: FormData) {
       Object.fromEntries(formData.entries())
     );
 
-    const isValidCode = await validateEmailVerificationCode(
-      user.id,
-      user.email,
-      code
-    );
+    const { valid, purpose } = await validateEmailVerificationCode({
+      userId: user.id,
+      email: user.email,
+      pendingEmail: user.pendingEmail,
+      code,
+    });
 
-    if (!isValidCode) {
+    if (!valid) {
       return toErrorActionState('Invalid or expired code');
     }
 
     await prisma.session.deleteMany({ where: { userId: user.id } });
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { emailVerified: true },
-    });
+
+    const isEmailChange = purpose === EmailVerificationPurpose.EMAIL_CHANGE;
+
+    if (isEmailChange && user.pendingEmail) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          email: user.pendingEmail,
+          pendingEmail: null,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: true },
+      });
+    }
 
     await createSession(user.id);
+    await setCookie(
+      'toast',
+      isEmailChange ? 'Email changed' : 'Email verified'
+    );
+    redirect(ticketsPath());
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
-
-  await setCookie('toast', 'Email verified');
-  redirect(ticketsPath());
 }

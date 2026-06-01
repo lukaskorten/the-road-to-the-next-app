@@ -14,7 +14,10 @@ export async function getAuthOrRedirect(options?: GetAuthOrRedirectOptions) {
     redirect(signInPath());
   }
 
-  if (checkEmailVerified && !auth.user.emailVerified) {
+  if (
+    checkEmailVerified &&
+    (!auth.user.emailVerified || auth.user.pendingEmail)
+  ) {
     redirect(emailVerificationPath());
   }
 

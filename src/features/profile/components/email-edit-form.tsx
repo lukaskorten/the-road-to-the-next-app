@@ -8,17 +8,14 @@ import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User } from '@/generated/prisma/client';
-import { updateProfile } from '../actions/update-profile';
+import { updateEmail } from '../actions/update-email';
 
 type EmailEditFormProps = {
   user: User;
 };
 
 export function EmailEditForm({ user }: EmailEditFormProps) {
-  const [actionState, action] = useActionState(
-    updateProfile,
-    EMPTY_ACTION_STATE
-  );
+  const [actionState, action] = useActionState(updateEmail, EMPTY_ACTION_STATE);
 
   return (
     <Form action={action} actionState={actionState}>
