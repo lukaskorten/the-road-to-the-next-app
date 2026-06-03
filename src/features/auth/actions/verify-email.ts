@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import z from 'zod';
 import { setCookie } from '@/actions/cookies';
-import { ticketsPath } from '@/app/paths';
+import { accountProfilePath, ticketsPath } from '@/app/paths';
 import {
   ActionState,
   fromErrorToActionState,
@@ -21,6 +21,7 @@ const emailVerificationSchema = z.object({
 
 export async function verifyEmail(_: ActionState, formData: FormData) {
   const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
+  let path = ticketsPath();
 
   try {
     const { code } = emailVerificationSchema.parse(
@@ -62,8 +63,10 @@ export async function verifyEmail(_: ActionState, formData: FormData) {
       'toast',
       isEmailChange ? 'Email changed' : 'Email verified'
     );
-    redirect(ticketsPath());
+    path = isEmailChange ? accountProfilePath() : ticketsPath();
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
+
+  redirect(path);
 }
