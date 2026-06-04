@@ -21,7 +21,7 @@ export function ResendEmailVerificationCodeButton() {
   };
 
   return (
-    <Button variant="ghost" className="mt-4" onClick={handleResendCode}>
+    <Button variant="outline" className="mt-4" onClick={handleResendCode}>
       Resend Code
     </Button>
   );

@@ -40,7 +40,6 @@ export function EmailVerificationForm() {
 
         <SubmitButton label="Verify Email" />
       </Form>
-
       <ResendEmailVerificationCodeButton />
     </>
   );
