@@ -12,8 +12,7 @@ import { hashPassword } from '@/features/password/utils/hash-and-verify';
 import { Prisma } from '@/generated/prisma/client';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
-import { emailVerificationEvent } from '../events/email-verification-event';
-import { welcomeEvent } from '../events/welcome-event';
+import { userSignUp } from '../events/user-sign-up-event';
 import { createSession } from '../utils/session';
 
 const signUpSchema = z
@@ -52,8 +51,7 @@ export async function signUp(_: ActionState, formData: FormData) {
     });
 
     await createSession(user.id);
-    await inngest.send(welcomeEvent.create({ userId: user.id }));
-    await inngest.send(emailVerificationEvent.create({ userId: user.id }));
+    await inngest.send(userSignUp.create({ userId: user.id }));
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

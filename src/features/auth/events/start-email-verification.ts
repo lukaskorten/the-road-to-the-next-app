@@ -1,17 +1,11 @@
-import { eventType, staticSchema } from 'inngest';
 import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { sendVerificationCodeEmail } from '../emails/send-verification-code-email';
 import { generateEmailVerificationToken } from '../utils/generate-email-verification-token';
+import { userSignUp } from './user-sign-up-event';
 
-type EmailVerificationPayload = { userId: string };
-
-export const emailVerificationEvent = eventType('app/auth.email-verification', {
-  schema: staticSchema<EmailVerificationPayload>(),
-});
-
-export const emailVerification = inngest.createFunction(
-  { id: 'email-verification', triggers: [emailVerificationEvent] },
+export const startEmailVerification = inngest.createFunction(
+  { id: 'email-verification', triggers: [userSignUp] },
   async ({ event }) => {
     const { userId } = event.data;
 

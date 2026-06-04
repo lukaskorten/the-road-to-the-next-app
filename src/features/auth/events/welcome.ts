@@ -4,6 +4,7 @@ import { inngest } from '@/lib/inngest';
 import { prisma } from '@/lib/prisma';
 import { getBaseUrl } from '@/utils/url';
 import { sendWelcomeEmail } from '../emails/send-email-welcome';
+import { userSignUp } from './user-sign-up-event';
 
 type WelcomePayload = { userId: string };
 export const welcomeEvent = eventType('app/auth.welcome', {
@@ -13,7 +14,7 @@ export const welcomeEvent = eventType('app/auth.welcome', {
 export const welcome = inngest.createFunction(
   {
     id: 'welcome',
-    triggers: [welcomeEvent],
+    triggers: [userSignUp],
   },
   async ({ event, step }) => {
     const { userId } = event.data;
