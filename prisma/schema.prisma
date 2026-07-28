@@ -24,20 +24,40 @@ model User {
   comments                Comment[]
   resetPasswordTokens     ResetPasswordToken[]
   emailVerificationTokens EmailVerificationToken[]
+  memberships             Membership[]
 }
 
 model EmailVerificationToken {
-  id        String   @id @default(cuid())
+  id        String                   @id @default(cuid())
   code      String
   email     String
   purpose   EmailVerificationPurpose @default(SIGN_UP)
   expiresAt DateTime
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([userId, purpose])
   @@index([email, purpose])
+}
+
+model Organization {
+  id          String       @id @default(cuid())
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  memberships Membership[]
+}
+
+model Membership {
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@id([userId, organizationId])
+  @@index([organizationId])
+  @@index([userId])
 }
 
 enum EmailVerificationPurpose {
