@@ -1,5 +1,15 @@
-import { LucideBook, LucideContact, LucideLibrary } from 'lucide-react';
-import { accountProfilePath, homePath, ticketsPath } from '@/app/paths';
+import {
+  LucideBook,
+  LucideContact,
+  LucideLibrary,
+  LucideUsers,
+} from 'lucide-react';
+import {
+  accountProfilePath,
+  homePath,
+  organizationsPath,
+  ticketsPath,
+} from '@/app/paths';
 import { NavItem } from './types';
 
 export const NAV_ITEMS: NavItem[] = [
@@ -18,6 +28,11 @@ export const NAV_ITEMS: NavItem[] = [
     icon: LucideContact,
     href: accountProfilePath(),
     hasSeparator: true,
+  },
+  {
+    title: 'Organizations',
+    icon: LucideUsers,
+    href: organizationsPath(),
   },
 ];
 

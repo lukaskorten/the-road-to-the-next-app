@@ -9,6 +9,7 @@ import {
   signInPath,
   signUpPath,
 } from '@/app/paths';
+import { Separator } from '@/components/ui/separator';
 import {
   Sidebar,
   SidebarContent,
@@ -60,14 +61,17 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((navItem, index) => (
-                <SidebarMenuItem key={navItem.title}>
-                  <SidebarMenuButton asChild isActive={index === activeIndex}>
-                    <Link href={navItem.href}>
-                      <navItem.icon />
-                      <span>{navItem.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <>
+                  {navItem.hasSeparator && <Separator className="my-1" />}
+                  <SidebarMenuItem key={navItem.title}>
+                    <SidebarMenuButton asChild isActive={index === activeIndex}>
+                      <Link href={navItem.href}>
+                        <navItem.icon />
+                        <span>{navItem.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
