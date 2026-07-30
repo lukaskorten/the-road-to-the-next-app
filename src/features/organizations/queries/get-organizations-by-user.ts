@@ -22,8 +22,11 @@ export async function getOrganizationsByUser() {
     },
   });
 
+  console.log('membership', organizations[0]?.memberships[0]);
+  console.log('joinedAt', organizations[0]?.memberships[0]?.joinedAt);
+
   return organizations.map(({ memberships, ...organization }) => ({
     ...organization,
-    membership: memberships[0],
+    membershipByUser: memberships[0],
   }));
 }
