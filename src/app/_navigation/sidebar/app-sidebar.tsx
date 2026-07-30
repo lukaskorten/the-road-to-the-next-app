@@ -62,8 +62,8 @@ export function AppSidebar() {
             <SidebarMenu>
               {navItems.map((navItem, index) => (
                 <>
-                  {navItem.hasSeparator && <Separator className="my-1" />}
                   <SidebarMenuItem key={navItem.title}>
+                    {navItem.hasSeparator && <Separator className="my-1" />}
                     <SidebarMenuButton asChild isActive={index === activeIndex}>
                       <Link href={navItem.href}>
                         <navItem.icon />
