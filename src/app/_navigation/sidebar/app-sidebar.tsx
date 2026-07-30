@@ -61,17 +61,15 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((navItem, index) => (
-                <>
-                  <SidebarMenuItem key={navItem.title}>
-                    {navItem.hasSeparator && <Separator className="my-1" />}
-                    <SidebarMenuButton asChild isActive={index === activeIndex}>
-                      <Link href={navItem.href}>
-                        <navItem.icon />
-                        <span>{navItem.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </>
+                <SidebarMenuItem key={navItem.title}>
+                  {navItem.hasSeparator && <Separator className="my-1" />}
+                  <SidebarMenuButton asChild isActive={index === activeIndex}>
+                    <Link href={navItem.href}>
+                      <navItem.icon />
+                      <span>{navItem.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
