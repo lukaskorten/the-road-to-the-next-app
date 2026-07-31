@@ -19,14 +19,17 @@ export async function getOrganizationsByUser() {
           userId: user.id,
         },
       },
+      _count: {
+        select: {
+          memberships: true,
+        },
+      },
     },
   });
 
-  console.log('membership', organizations[0]?.memberships[0]);
-  console.log('joinedAt', organizations[0]?.memberships[0]?.joinedAt);
-
-  return organizations.map(({ memberships, ...organization }) => ({
+  return organizations.map(({ memberships, _count, ...organization }) => ({
     ...organization,
     membershipByUser: memberships[0],
+    membersCount: _count.memberships,
   }));
 }

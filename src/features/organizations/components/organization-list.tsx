@@ -15,6 +15,7 @@ export default async function OrganizationList() {
               'dd MMM yyyy HH:mm'
             )}
           </div>
+          <div>Members: {organization.membersCount}</div>
         </div>
       ))}
     </div>
