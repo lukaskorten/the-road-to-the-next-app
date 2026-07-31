@@ -13,7 +13,10 @@ import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { generateEmailVerificationToken } from '../utils/generate-email-verification-token';
 
 export async function resendEmailVerificationCode() {
-  const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
+  const { user } = await getAuthOrRedirect({
+    checkEmailVerified: false,
+    checkOrganizations: false,
+  });
 
   const email = user.pendingEmail || user.email;
   const purpose = user.pendingEmail

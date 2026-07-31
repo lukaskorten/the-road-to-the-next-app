@@ -4,11 +4,13 @@ import { getOrganizationsByUser } from '@/features/organizations/queries/get-org
 import { getAuth } from './get-auth';
 
 type GetAuthOrRedirectOptions = {
-  checkEmailVerified: boolean;
+  checkEmailVerified?: boolean;
+  checkOrganizations?: boolean;
 };
 
 export async function getAuthOrRedirect(options?: GetAuthOrRedirectOptions) {
-  const { checkEmailVerified = true } = options ?? {};
+  const { checkEmailVerified = true, checkOrganizations = true } =
+    options ?? {};
 
   const auth = await getAuth();
   if (!auth.user) {
@@ -22,9 +24,11 @@ export async function getAuthOrRedirect(options?: GetAuthOrRedirectOptions) {
     redirect(emailVerificationPath());
   }
 
-  const organizations = await getOrganizationsByUser();
-  if (!organizations.length) {
-    redirect(onboardingPath());
+  if (checkOrganizations) {
+    const organizations = await getOrganizationsByUser();
+    if (!organizations.length) {
+      redirect(onboardingPath());
+    }
   }
 
   return auth;

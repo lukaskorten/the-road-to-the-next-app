@@ -20,7 +20,10 @@ const emailVerificationSchema = z.object({
 });
 
 export async function verifyEmail(_: ActionState, formData: FormData) {
-  const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
+  const { user } = await getAuthOrRedirect({
+    checkEmailVerified: false,
+    checkOrganizations: false,
+  });
   let path = ticketsPath();
 
   try {
