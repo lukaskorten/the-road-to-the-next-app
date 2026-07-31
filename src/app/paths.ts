@@ -12,6 +12,8 @@ export const ticketsPath = (): Route => '/tickets' as Route;
 
 export const organizationsPath = (): Route => '/organizations' as Route;
 
+export const onboardingPath = (): Route => '/onboarding' as Route;
+
 export const signUpPath = (): Route => '/sign-up' as Route;
 
 export const signInPath = (): Route => '/sign-in' as Route;
