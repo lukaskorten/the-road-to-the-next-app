@@ -83,6 +83,7 @@ async function seed() {
     data: {
       userId: dbUsers[0].id,
       organizationId: organization.id,
+      isActive: true,
     },
   });
 

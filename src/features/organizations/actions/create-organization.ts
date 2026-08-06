@@ -32,6 +32,7 @@ export async function createOrganization(
         memberships: {
           create: {
             userId: user.id,
+            isActive: false,
           },
         },
       },

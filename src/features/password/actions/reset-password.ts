@@ -41,7 +41,7 @@ export async function resetPassword(
     );
 
     const tokenHash = hashToken(token);
-    const resetPasswordToken = await prisma.resetPaswordToken.findUnique({
+    const resetPasswordToken = await prisma.resetPasswordToken.findUnique({
       where: { tokenHash },
     });
 
@@ -59,7 +59,7 @@ export async function resetPassword(
       data: { passwordHash },
     });
 
-    await prisma.resetPaswordToken.deleteMany({ where: { userId } });
+    await prisma.resetPasswordToken.deleteMany({ where: { userId } });
     await prisma.session.deleteMany({ where: { userId } });
     await createSession(userId);
   } catch (error) {

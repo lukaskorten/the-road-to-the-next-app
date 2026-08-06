@@ -7,13 +7,13 @@ import { getBaseUrl } from '@/utils/url';
 const TOKEN_EXPIRATION_TIME_MS = 1000 * 60 * 60 * 2; // 2 hours
 
 export async function generatePasswordResetLink(userId: string) {
-  prisma.resetPaswordToken.deleteMany({ where: { userId } });
+  prisma.resetPasswordToken.deleteMany({ where: { userId } });
 
   const token = generateRandomToken();
   const tokenHash = hashToken(token);
   const expiresAt = addMilliseconds(new Date(), TOKEN_EXPIRATION_TIME_MS);
 
-  await prisma.resetPaswordToken.create({
+  await prisma.resetPasswordToken.create({
     data: { userId, tokenHash, expiresAt },
   });
 
