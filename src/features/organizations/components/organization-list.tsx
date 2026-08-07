@@ -1,13 +1,11 @@
-import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import { format } from 'date-fns';
-import { LucideMoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  LucideArrowLeftRight,
+  LucideEdit2,
+  LucideSquareArrowOutUpRight,
+  LucideTrash2,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -33,38 +31,61 @@ export default async function OrganizationList() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {organizations.map((organization) => (
-          <TableRow key={organization.id}>
-            <TableCell>{organization.id}</TableCell>
-            <TableCell>{organization.name}</TableCell>
-            <TableCell>
-              {format(
-                organization.membershipByUser.joinedAt,
-                'dd.MM.yyyy HH:mm'
-              )}
-            </TableCell>
-            <TableCell>{organization.membersCount}</TableCell>
-            <TableCell className="text-right">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="size-8">
-                    <LucideMoreHorizontal />
-                    <span className="sr-only">Open menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Change Organization</DropdownMenuItem>
-                  <DropdownMenuItem>Show Details</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Organization</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem variant="destructive">
-                    Delete Organization
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        ))}
+        {organizations.map((organization) => {
+          const switchButton = (
+            <Button variant="outline" size="icon" title="Change Organization">
+              <LucideArrowLeftRight />
+            </Button>
+          );
+
+          const detailButton = (
+            <Button variant="outline" size="icon" title="Show Details">
+              <LucideSquareArrowOutUpRight />
+            </Button>
+          );
+
+          const editButton = (
+            <Button variant="outline" size="icon" title="Edit Organization">
+              <LucideEdit2 />
+            </Button>
+          );
+
+          const deleteButton = (
+            <Button
+              variant="destructive"
+              title="Delete Organization"
+              size="icon"
+            >
+              <LucideTrash2 />
+            </Button>
+          );
+
+          const buttons = (
+            <>
+              {switchButton}
+              {detailButton}
+              {editButton}
+              {deleteButton}
+            </>
+          );
+
+          return (
+            <TableRow key={organization.id}>
+              <TableCell>{organization.id}</TableCell>
+              <TableCell>{organization.name}</TableCell>
+              <TableCell>
+                {format(
+                  organization.membershipByUser.joinedAt,
+                  'dd.MM.yyyy HH:mm'
+                )}
+              </TableCell>
+              <TableCell>{organization.membersCount}</TableCell>
+              <TableCell className="flex justify-end gap-x-2">
+                {buttons}
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );
