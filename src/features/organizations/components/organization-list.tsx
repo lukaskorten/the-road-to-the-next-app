@@ -1,6 +1,5 @@
 import { format } from 'date-fns';
 import {
-  LucideArrowLeftRight,
   LucideEdit2,
   LucideSquareArrowOutUpRight,
   LucideTrash2,
@@ -15,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
+import { SwitchOrganizationButton } from './switch-organization-button';
 
 export default async function OrganizationList() {
   const organizations = await getOrganizationsByUser();
@@ -32,10 +32,14 @@ export default async function OrganizationList() {
       </TableHeader>
       <TableBody>
         {organizations.map((organization) => {
+          const isActive = organization.membershipByUser.isActive;
+          const switchButtonLabel = isActive ? 'Active' : 'Switch';
           const switchButton = (
-            <Button variant="outline" size="icon" title="Change Organization">
-              <LucideArrowLeftRight />
-            </Button>
+            <SwitchOrganizationButton
+              isActive={isActive}
+              switchButtonLabel={switchButtonLabel}
+              organizationId={organization.id}
+            />
           );
 
           const detailButton = (
