@@ -33,7 +33,7 @@ export async function switchOrganization(organizationId: string) {
 
     await prisma.membership.update({
       where: {
-        userId_organizationId: {
+        membershipId: {
           organizationId,
           userId: user.id,
         },

@@ -58,7 +58,7 @@ model Membership {
   joinedAt DateTime @default(now())
   isActive Boolean
 
-  @@id([userId, organizationId])
+  @@id(name: "membershipId", [userId, organizationId])
   @@index([organizationId])
   @@index([userId])
 }
