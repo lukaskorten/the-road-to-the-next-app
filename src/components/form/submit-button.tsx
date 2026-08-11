@@ -20,7 +20,7 @@ export function SubmitButton({
   icon,
   variant,
   size,
-  iconPosition = 'right',
+  iconPosition = 'left',
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
   return (
