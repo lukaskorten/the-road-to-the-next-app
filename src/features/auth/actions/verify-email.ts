@@ -23,6 +23,7 @@ export async function verifyEmail(_: ActionState, formData: FormData) {
   const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
     checkOrganizations: false,
+    checkActiveOrganization: false,
   });
   let path = ticketsPath();
 

@@ -16,6 +16,7 @@ export async function resendEmailVerificationCode() {
   const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
     checkOrganizations: false,
+    checkActiveOrganization: false,
   });
 
   const email = user.pendingEmail || user.email;

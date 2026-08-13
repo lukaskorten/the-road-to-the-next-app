@@ -12,7 +12,7 @@ import { prisma } from '@/lib/prisma';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 
 export async function switchOrganization(organizationId: string) {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect({ checkActiveOrganization: false });
 
   try {
     const organizations = await getOrganizationsByUser();

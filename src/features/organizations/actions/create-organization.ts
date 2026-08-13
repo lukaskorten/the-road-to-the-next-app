@@ -26,13 +26,22 @@ export async function createOrganization(
       Object.fromEntries(formData.entries())
     );
 
+    await prisma.membership.updateMany({
+      where: {
+        userId: user.id,
+      },
+      data: {
+        isActive: false,
+      },
+    });
+
     await prisma.organization.create({
       data: {
         ...data,
         memberships: {
           create: {
             userId: user.id,
-            isActive: false,
+            isActive: true,
           },
         },
       },

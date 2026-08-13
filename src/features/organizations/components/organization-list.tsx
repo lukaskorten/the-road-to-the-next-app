@@ -18,6 +18,7 @@ import { SwitchOrganizationButton } from './switch-organization-button';
 
 export default async function OrganizationList() {
   const organizations = await getOrganizationsByUser();
+  const hasActive = organizations.some((org) => org.membershipByUser.isActive);
 
   return (
     <Table>
@@ -33,7 +34,12 @@ export default async function OrganizationList() {
       <TableBody>
         {organizations.map((organization) => {
           const isActive = organization.membershipByUser.isActive;
-          const switchButtonLabel = isActive ? 'Active' : 'Switch';
+          const switchButtonLabel = hasActive
+            ? isActive
+              ? 'Active'
+              : 'Switch'
+            : 'Activate';
+
           const switchButton = (
             <SwitchOrganizationButton
               isActive={isActive}

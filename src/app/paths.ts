@@ -15,6 +15,8 @@ export const organizationCreatePath = (): Route =>
   '/organizations/create' as Route;
 
 export const onboardingPath = (): Route => '/onboarding' as Route;
+export const selectActiveOrganization = (): Route =>
+  '/onboarding/select-active-organization' as Route;
 
 export const signUpPath = (): Route => '/sign-up' as Route;
 

@@ -1,16 +1,25 @@
 import { redirect } from 'next/navigation';
-import { emailVerificationPath, onboardingPath, signInPath } from '@/app/paths';
+import {
+  emailVerificationPath,
+  onboardingPath,
+  selectActiveOrganization,
+  signInPath,
+} from '@/app/paths';
 import { getOrganizationsByUser } from '@/features/organizations/queries/get-organizations-by-user';
 import { getAuth } from './get-auth';
 
 type GetAuthOrRedirectOptions = {
   checkEmailVerified?: boolean;
   checkOrganizations?: boolean;
+  checkActiveOrganization?: boolean;
 };
 
 export async function getAuthOrRedirect(options?: GetAuthOrRedirectOptions) {
-  const { checkEmailVerified = true, checkOrganizations = true } =
-    options ?? {};
+  const {
+    checkEmailVerified = true,
+    checkOrganizations = true,
+    checkActiveOrganization = true,
+  } = options ?? {};
 
   const auth = await getAuth();
   if (!auth.user) {
@@ -24,10 +33,18 @@ export async function getAuthOrRedirect(options?: GetAuthOrRedirectOptions) {
     redirect(emailVerificationPath());
   }
 
-  if (checkOrganizations) {
+  if (checkOrganizations || checkActiveOrganization) {
     const organizations = await getOrganizationsByUser();
-    if (!organizations.length) {
+
+    if (!organizations.length && checkOrganizations) {
       redirect(onboardingPath());
+    }
+
+    const hasActive = organizations.some(
+      (org) => org.membershipByUser.isActive
+    );
+    if (!hasActive && checkActiveOrganization) {
+      redirect(selectActiveOrganization());
     }
   }
 
