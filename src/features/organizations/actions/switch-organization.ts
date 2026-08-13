@@ -21,27 +21,28 @@ export async function switchOrganization(organizationId: string) {
       return toErrorActionState('Not a member of this organization');
     }
 
-    await prisma.membership.updateMany({
-      where: {
-        userId: user.id,
-        organizationId: { not: organizationId },
-      },
-      data: {
-        isActive: false,
-      },
-    });
-
-    await prisma.membership.update({
-      where: {
-        membershipId: {
-          organizationId,
+    await prisma.$transaction([
+      prisma.membership.updateMany({
+        where: {
           userId: user.id,
+          organizationId: { not: organizationId },
         },
-      },
-      data: {
-        isActive: true,
-      },
-    });
+        data: {
+          isActive: false,
+        },
+      }),
+      prisma.membership.update({
+        where: {
+          membershipId: {
+            organizationId,
+            userId: user.id,
+          },
+        },
+        data: {
+          isActive: true,
+        },
+      }),
+    ]);
   } catch (error) {
     return fromErrorToActionState(error);
   }
