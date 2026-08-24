@@ -1,9 +1,5 @@
 import { format } from 'date-fns';
-import {
-  LucideEdit2,
-  LucideSquareArrowOutUpRight,
-  LucideTrash2,
-} from 'lucide-react';
+import { LucideEdit2, LucideSquareArrowOutUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -14,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
+import { DeleteOrganizationButton } from './delete-organization-button';
 import { SwitchOrganizationButton } from './switch-organization-button';
 
 export default async function OrganizationList() {
@@ -61,13 +58,7 @@ export default async function OrganizationList() {
           );
 
           const deleteButton = (
-            <Button
-              variant="destructive"
-              title="Delete Organization"
-              size="icon"
-            >
-              <LucideTrash2 />
-            </Button>
+            <DeleteOrganizationButton organizationId={organization.id} />
           );
 
           const buttons = (
