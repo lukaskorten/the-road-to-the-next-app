@@ -1,10 +1,9 @@
 'use client';
 
-import { LucideTrash2 } from 'lucide-react';
-import { useActionState } from 'react';
-import { Form } from '@/components/form/form';
-import { SubmitButton } from '@/components/form/submit-button';
-import { EMPTY_ACTION_STATE } from '@/components/form/utils/to-action-state';
+import { LucideLoaderCircle, LucideTrash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useConfirmDialog } from '@/components/confirm-dialog';
+import { Button } from '@/components/ui/button';
 import { deleteOrganization } from '../actions/delete-organization';
 
 type DeleteOrganizationButtonProps = {
@@ -14,18 +13,21 @@ type DeleteOrganizationButtonProps = {
 export function DeleteOrganizationButton({
   organizationId,
 }: DeleteOrganizationButtonProps) {
-  const [actionState, action] = useActionState(
-    deleteOrganization.bind(null, organizationId),
-    EMPTY_ACTION_STATE
-  );
+  const router = useRouter();
+  const [button, dialog] = useConfirmDialog({
+    action: deleteOrganization.bind(null, organizationId),
+    trigger: (isPending) => (
+      <Button size="icon" variant="destructive">
+        {isPending ? <LucideLoaderCircle /> : <LucideTrash2 />}
+      </Button>
+    ),
+    onSuccess: () => router.refresh(),
+  });
 
   return (
-    <Form action={action} actionState={actionState}>
-      <SubmitButton
-        variant="destructive"
-        label="Delete Organization"
-        icon={<LucideTrash2 />}
-      />
-    </Form>
+    <>
+      {button}
+      {dialog}
+    </>
   );
 }

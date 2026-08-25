@@ -1,7 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { organizationsPath } from '@/app/paths';
 import {
   fromErrorToActionState,
   toErrorActionState,
@@ -43,6 +41,5 @@ export async function deleteOrganization(organizationId: string) {
     return fromErrorToActionState(error);
   }
 
-  revalidatePath(organizationsPath());
   return toSuccessActionState('Organization successfully deleted.');
 }
