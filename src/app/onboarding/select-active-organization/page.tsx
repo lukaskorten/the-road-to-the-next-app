@@ -33,7 +33,7 @@ export default async function SelectActiveOrganizationPage() {
       />
 
       <Suspense fallback={<Spinner />}>
-        <OrganizationList />
+        <OrganizationList limitedAccess />
       </Suspense>
     </div>
   );

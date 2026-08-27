@@ -13,7 +13,13 @@ import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { DeleteOrganizationButton } from './delete-organization-button';
 import { SwitchOrganizationButton } from './switch-organization-button';
 
-export default async function OrganizationList() {
+type OrganizationListProps = {
+  limitedAccess?: boolean;
+};
+
+export default async function OrganizationList({
+  limitedAccess,
+}: OrganizationListProps) {
   const organizations = await getOrganizationsByUser();
   const hasActive = organizations.some((org) => org.membershipByUser.isActive);
 
@@ -64,9 +70,9 @@ export default async function OrganizationList() {
           const buttons = (
             <>
               {switchButton}
-              {detailButton}
-              {editButton}
-              {deleteButton}
+              {limitedAccess ? null : detailButton}
+              {limitedAccess ? null : editButton}
+              {limitedAccess ? null : deleteButton}
             </>
           );
 
