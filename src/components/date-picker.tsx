@@ -22,7 +22,7 @@ type DatePickerProps = {
   imperativeHandle?: RefObject<ImerativeHandleFromDatePicker | null>;
 };
 
-export function DatePickernextjs({
+export function DatePicker({
   id,
   name,
   defaultValue,
