@@ -1,10 +1,11 @@
 'use server';
 
-import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { prisma } from '@/lib/prisma';
 
 export async function getActiveOrganization() {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await getAuth();
+  if (!user) return;
 
   return prisma.organization.findFirst({
     where: {
