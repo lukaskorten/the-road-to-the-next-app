@@ -12,6 +12,8 @@ import {
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { DeleteOrganizationButton } from './delete-organization-button';
 import { SwitchOrganizationButton } from './switch-organization-button';
+import Link from 'next/link';
+import { membershipsPath } from '@/app/paths';
 
 type OrganizationListProps = {
   limitedAccess?: boolean;
@@ -52,8 +54,10 @@ export default async function OrganizationList({
           );
 
           const detailButton = (
-            <Button variant="outline" size="icon" title="Show Details">
-              <LucideSquareArrowOutUpRight />
+            <Button variant="outline" size="icon" title="Show Details" asChild>
+              <Link href={membershipsPath(organization.id)}>
+                <LucideSquareArrowOutUpRight />
+              </Link>
             </Button>
           );
 
