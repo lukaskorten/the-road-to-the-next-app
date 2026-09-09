@@ -1,5 +1,7 @@
 import { format } from 'date-fns';
 import { LucideEdit2, LucideSquareArrowOutUpRight } from 'lucide-react';
+import Link from 'next/link';
+import { membershipsPath } from '@/app/paths';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -12,8 +14,6 @@ import {
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { DeleteOrganizationButton } from './delete-organization-button';
 import { SwitchOrganizationButton } from './switch-organization-button';
-import Link from 'next/link';
-import { membershipsPath } from '@/app/paths';
 
 type OrganizationListProps = {
   limitedAccess?: boolean;

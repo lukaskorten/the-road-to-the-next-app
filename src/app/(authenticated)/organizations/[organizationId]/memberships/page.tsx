@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { Heading } from '@/components/heading';
 import { Spinner } from '@/components/spinner';
+import MembershipsList from '@/features/organizations/components/memberships-list';
 
 type MembershipsPageProps = {
   params: Promise<{ organizationId: string }>;
@@ -23,7 +24,9 @@ export default async function MembershipsPage({
         description="Manage members in your organization"
       />
 
-      <Suspense fallback={<Spinner />}></Suspense>
+      <Suspense fallback={<Spinner />}>
+        <MembershipsList organizationId={organizationId} />
+      </Suspense>
     </div>
   );
 }
