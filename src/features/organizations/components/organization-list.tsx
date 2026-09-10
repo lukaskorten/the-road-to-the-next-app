@@ -33,7 +33,7 @@ export default async function OrganizationList({
           <TableHead>Name</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Members</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>

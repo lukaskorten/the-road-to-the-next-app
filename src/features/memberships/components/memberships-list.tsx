@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { LucideBan, LucideCheck } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -28,8 +29,10 @@ export default async function MembershipsList({
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
           <TableHead>Joined At</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead>Verified Email</TableHead>
+          <TableHead />
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -39,8 +42,16 @@ export default async function MembershipsList({
           return (
             <TableRow key={membership.userId}>
               <TableCell>{getName(membership)}</TableCell>
+              <TableCell>{membership.user.email}</TableCell>
               <TableCell>
                 {format(membership.joinedAt, 'dd.MM.yyyy HH:mm')}
+              </TableCell>
+              <TableCell>
+                {membership.user.emailVerified ? (
+                  <LucideCheck />
+                ) : (
+                  <LucideBan />
+                )}
               </TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
