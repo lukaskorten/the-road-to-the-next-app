@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { getMemberships } from '../queries/get-memberships';
+import MembershipDeleteButton from './membership-delete-button';
 
 type MembershipsListProps = {
   organizationId: string;
@@ -31,7 +32,13 @@ export default async function MembershipsList({
       </TableHeader>
       <TableBody>
         {memberships.map((membership) => {
-          const buttons = <></>;
+          const deleteButton = (
+            <MembershipDeleteButton
+              userId={membership.userId}
+              organizationId={membership.organizationId}
+            />
+          );
+          const buttons = <>{deleteButton}</>;
           const isCurrentUser = membership.userId === currentUserId;
 
           return (
