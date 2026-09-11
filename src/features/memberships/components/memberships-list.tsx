@@ -8,17 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Membership, User } from '@/generated/prisma/client';
 import { getMemberships } from '../queries/get-memberships';
 
 type MembershipsListProps = {
   organizationId: string;
 };
-
-function getName(membership: Membership & { user: User }) {
-  const { firstName, lastName, username } = membership.user;
-  return firstName && lastName ? `${firstName} ${lastName}` : username;
-}
 
 export default async function MembershipsList({
   organizationId,
@@ -28,7 +22,7 @@ export default async function MembershipsList({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Name</TableHead>
+          <TableHead>Username</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Verified Email</TableHead>
@@ -41,7 +35,7 @@ export default async function MembershipsList({
 
           return (
             <TableRow key={membership.userId}>
-              <TableCell>{getName(membership)}</TableCell>
+              <TableCell>{membership.user.username}</TableCell>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>
                 {format(membership.joinedAt, 'dd.MM.yyyy HH:mm')}
