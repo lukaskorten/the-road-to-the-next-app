@@ -17,7 +17,7 @@ type MembershipsListProps = {
 export default async function MembershipsList({
   organizationId,
 }: MembershipsListProps) {
-  const memberships = await getMemberships(organizationId);
+  const { memberships, currentUserId } = await getMemberships(organizationId);
   return (
     <Table>
       <TableHeader>
@@ -32,10 +32,16 @@ export default async function MembershipsList({
       <TableBody>
         {memberships.map((membership) => {
           const buttons = <></>;
+          const isCurrentUser = membership.userId === currentUserId;
 
           return (
             <TableRow key={membership.userId}>
-              <TableCell>{membership.user.username}</TableCell>
+              <TableCell>
+                {membership.user.username}
+                {isCurrentUser && (
+                  <span className="text-muted-foreground text-xs"> (you)</span>
+                )}
+              </TableCell>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>
                 {format(membership.joinedAt, 'dd.MM.yyyy HH:mm')}
