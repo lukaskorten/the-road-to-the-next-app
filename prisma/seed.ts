@@ -79,12 +79,19 @@ async function seed() {
     data: users.map((user) => ({ ...user, passwordHash })),
   });
 
-  await prisma.membership.create({
-    data: {
-      userId: dbUsers[0].id,
-      organizationId: organization.id,
-      isActive: true,
-    },
+  await prisma.membership.createMany({
+    data: [
+      {
+        userId: dbUsers[0].id,
+        organizationId: organization.id,
+        isActive: true,
+      },
+      {
+        userId: dbUsers[1].id,
+        organizationId: organization.id,
+        isActive: true,
+      },
+    ],
   });
 
   const dbTickets = await prisma.ticket.createManyAndReturn({
