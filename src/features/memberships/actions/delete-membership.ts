@@ -1,7 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { membershipsPath } from '@/app/paths';
 import {
   fromErrorToActionState,
   toErrorActionState,
@@ -31,6 +29,5 @@ export async function deleteMembership(userId: string, organizationId: string) {
     return fromErrorToActionState(error);
   }
 
-  revalidatePath(membershipsPath(organizationId));
   return toSuccessActionState('The Membership has been deleted!');
 }
