@@ -1,6 +1,6 @@
 'use client';
 
-import { LucideLoaderCircle, LucideTrash } from 'lucide-react';
+import { LucideLoaderCircle, LucideLogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useConfirmDialog } from '@/components/confirm-dialog';
 import { Button } from '@/components/ui/button';
@@ -24,7 +24,7 @@ export default function MembershipDeleteButton({
         {isPending ? (
           <LucideLoaderCircle className="animate-spin" />
         ) : (
-          <LucideTrash />
+          <LucideLogOut />
         )}
       </Button>
     ),
