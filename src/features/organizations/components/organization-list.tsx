@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import MembershipDeleteButton from '@/features/memberships/components/membership-delete-button';
 import { getOrganizationsByUser } from '../queries/get-organizations-by-user';
 import { DeleteOrganizationButton } from './delete-organization-button';
 import { SwitchOrganizationButton } from './switch-organization-button';
@@ -67,6 +68,13 @@ export default async function OrganizationList({
             </Button>
           );
 
+          const leaveButton = (
+            <MembershipDeleteButton
+              userId={organization.membershipByUser.userId}
+              organizationId={organization.id}
+            />
+          );
+
           const deleteButton = (
             <DeleteOrganizationButton organizationId={organization.id} />
           );
@@ -76,6 +84,7 @@ export default async function OrganizationList({
               {switchButton}
               {limitedAccess ? null : detailButton}
               {limitedAccess ? null : editButton}
+              {limitedAccess ? null : leaveButton}
               {limitedAccess ? null : deleteButton}
             </>
           );
