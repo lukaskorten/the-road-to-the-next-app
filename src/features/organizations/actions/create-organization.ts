@@ -30,13 +30,14 @@ export async function createOrganization(
     );
 
     await prisma.$transaction(async (tsx) => {
-      const membership = await tsx.organization.create({
+      const createdOrganization = await tsx.organization.create({
         data: {
           ...data,
           memberships: {
             create: {
               userId: user.id,
               isActive: true,
+              role: 'ADMIN',
             },
           },
         },
@@ -44,7 +45,7 @@ export async function createOrganization(
       await tsx.membership.updateMany({
         where: {
           userId: user.id,
-          organizationId: { not: membership.id },
+          organizationId: { not: createdOrganization.id },
         },
         data: {
           isActive: false,

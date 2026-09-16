@@ -49,6 +49,11 @@ model Organization {
   memberships Membership[]
 }
 
+enum MembershipRole {
+  MEMBER
+  ADMIN
+}
+
 model Membership {
   userId         String
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -57,6 +62,7 @@ model Membership {
 
   joinedAt DateTime @default(now())
   isActive Boolean
+  role     MembershipRole @default(MEMBER)
 
   @@id(name: "membershipId", [userId, organizationId])
   @@index([organizationId])

@@ -34,6 +34,7 @@ export default async function OrganizationList({
           <TableHead>Name</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Members</TableHead>
+          <TableHead>My Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -68,9 +69,11 @@ export default async function OrganizationList({
             </Button>
           );
 
+          const currentUserId = organization.membershipByUser.userId;
           const leaveButton = (
             <MembershipDeleteButton
-              userId={organization.membershipByUser.userId}
+              userId={currentUserId}
+              currentUserId={currentUserId}
               organizationId={organization.id}
             />
           );
@@ -100,6 +103,7 @@ export default async function OrganizationList({
                 )}
               </TableCell>
               <TableCell>{organization.membersCount}</TableCell>
+              <TableCell>{organization.membershipByUser.role}</TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>

@@ -27,6 +27,7 @@ export default async function MembershipsList({
           <TableHead>Email</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Verified Email</TableHead>
+          <TableHead>Role</TableHead>
           <TableHead />
         </TableRow>
       </TableHeader>
@@ -61,6 +62,7 @@ export default async function MembershipsList({
                   <LucideBan />
                 )}
               </TableCell>
+              <TableCell>{membership.role}</TableCell>
               <TableCell className="flex justify-end gap-x-2">
                 {buttons}
               </TableCell>
