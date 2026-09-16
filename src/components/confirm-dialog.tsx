@@ -24,11 +24,12 @@ import { Button } from './ui/button';
 type ConfirmDialogProps = {
   title?: string;
   description?: string;
+  loadingMessage?: string;
   action: () => Promise<ActionState>;
   trigger:
     | React.ReactElement<{ onClick: MouseEventHandler }>
     | ((
-        isPending: boolean,
+        isPending: boolean
       ) => React.ReactElement<{ onClick: MouseEventHandler }>);
   onSuccess?: () => void;
 };
@@ -36,6 +37,7 @@ type ConfirmDialogProps = {
 export function useConfirmDialog({
   title = 'Are you absolutely sure?',
   description = 'This action cannot be undone. Please make sure you understand the consequences.',
+  loadingMessage = 'Deleting...',
   action,
   trigger,
   onSuccess,
@@ -43,14 +45,14 @@ export function useConfirmDialog({
   const [isOpen, setIsOpen] = useState(false);
   const [actionState, formAction, isPending] = useActionState(
     action,
-    EMPTY_ACTION_STATE,
+    EMPTY_ACTION_STATE
   );
 
   const toastRef = useRef<string | number | null>(null);
 
   useEffect(() => {
     if (isPending) {
-      toastRef.current = toast.loading('Deleting...');
+      toastRef.current = toast.loading(loadingMessage);
     } else if (toastRef.current) {
       toast.dismiss(toastRef.current);
     }
@@ -60,7 +62,7 @@ export function useConfirmDialog({
         toast.dismiss(toastRef.current);
       }
     };
-  }, [isPending]);
+  }, [isPending, loadingMessage]);
 
   useActionFeedback(actionState, {
     onSuccess: ({ actionState }) => {
@@ -84,7 +86,7 @@ export function useConfirmDialog({
       onClick: () => {
         setIsOpen((state) => !state);
       },
-    },
+    }
   );
 
   const dialog = (

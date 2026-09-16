@@ -10,7 +10,8 @@ import { prisma } from '@/lib/prisma';
 import { getMemberships } from '../queries/get-memberships';
 
 export async function deleteMembership(userId: string, organizationId: string) {
-  await getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect();
+  const isLoggedInUser = userId === user.id;
 
   try {
     const { memberships } = await getMemberships(organizationId);
@@ -18,7 +19,9 @@ export async function deleteMembership(userId: string, organizationId: string) {
 
     if (isLastMembership) {
       return toErrorActionState(
-        "You can't delete the last membership of an organization!"
+        isLoggedInUser
+          ? "You can't leave the organization as the last member!"
+          : "You can't delete the last membership of an organization!"
       );
     }
 
@@ -29,5 +32,9 @@ export async function deleteMembership(userId: string, organizationId: string) {
     return fromErrorToActionState(error);
   }
 
-  return toSuccessActionState('The Membership has been deleted!');
+  return toSuccessActionState(
+    isLoggedInUser
+      ? 'You have left the organization!'
+      : 'The Membership has been deleted!'
+  );
 }

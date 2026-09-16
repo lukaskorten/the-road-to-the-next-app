@@ -35,6 +35,7 @@ export default async function MembershipsList({
           const deleteButton = (
             <MembershipDeleteButton
               userId={membership.userId}
+              currentUserId={currentUserId}
               organizationId={membership.organizationId}
             />
           );
