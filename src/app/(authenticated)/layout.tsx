@@ -6,7 +6,7 @@ export default async function TicketsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await getAuthOrRedirect();
+  await getAuthOrRedirect();
 
   return (
     <>
