@@ -85,11 +85,13 @@ async function seed() {
         userId: dbUsers[0].id,
         organizationId: organization.id,
         isActive: true,
+        role: 'ADMIN',
       },
       {
         userId: dbUsers[1].id,
         organizationId: organization.id,
         isActive: true,
+        role: 'MEMBER',
       },
     ],
   });
