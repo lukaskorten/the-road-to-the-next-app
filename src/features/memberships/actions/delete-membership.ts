@@ -11,15 +11,32 @@ import { getMemberships } from '../queries/get-memberships';
 
 export async function deleteMembership(userId: string, organizationId: string) {
   const { user } = await getAuthOrRedirect();
-  const isLoggedInUser = userId === user.id;
+  const isLeaving = userId === user.id;
 
   try {
     const { memberships } = await getMemberships(organizationId);
+    const admins = memberships.filter((m) => m.role === 'ADMIN');
+    const loggedInMembership = memberships.find((m) => m.userId === user.id);
+    const isAdmin = loggedInMembership?.role === 'ADMIN';
+    const isLastAdmin = admins.length === 1 && isAdmin;
+
+    if (isLastAdmin && isLeaving) {
+      return toErrorActionState(
+        "You can't leave the organization as the last admin."
+      );
+    }
+
+    if (!isLeaving && !isAdmin) {
+      return toErrorActionState(
+        'You must be an admin to delete this membership.'
+      );
+    }
+
     const isLastMembership = memberships.length === 1;
 
     if (isLastMembership) {
       return toErrorActionState(
-        isLoggedInUser
+        isLeaving
           ? "You can't leave the organization as the last member!"
           : "You can't delete the last membership of an organization!"
       );
@@ -33,7 +50,7 @@ export async function deleteMembership(userId: string, organizationId: string) {
   }
 
   return toSuccessActionState(
-    isLoggedInUser
+    isLeaving
       ? 'You have left the organization!'
       : 'The Membership has been deleted!'
   );
