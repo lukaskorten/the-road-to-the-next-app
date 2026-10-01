@@ -12,17 +12,22 @@ export async function deleteOrganization(organizationId: string) {
   const { user } = await getAuthOrRedirect();
 
   try {
-    const activeMembership = await prisma.membership.findFirst({
+    const membership = await prisma.membership.findFirst({
       where: {
         organizationId,
         userId: user.id,
-        isActive: true,
       },
     });
 
-    if (activeMembership) {
+    if (membership?.isActive) {
       return toErrorActionState(
         'You cannot delete the organization you are currently active in.'
+      );
+    }
+
+    if (!membership || membership.role !== 'ADMIN') {
+      return toErrorActionState(
+        'You must be an admin to delete the organization.'
       );
     }
 
