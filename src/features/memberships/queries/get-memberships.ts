@@ -13,6 +13,8 @@ export async function getMemberships(organizationId: string) {
       user: {
         select: {
           username: true,
+          firstName: true,
+          lastName: true,
           email: true,
           emailVerified: true,
         },

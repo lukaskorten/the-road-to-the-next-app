@@ -24,6 +24,7 @@ export default async function MembershipsList({
       <TableHeader>
         <TableRow>
           <TableHead>Username</TableHead>
+          <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Joined At</TableHead>
           <TableHead>Verified Email</TableHead>
@@ -50,6 +51,9 @@ export default async function MembershipsList({
                 {isCurrentUser && (
                   <span className="text-muted-foreground text-xs"> (you)</span>
                 )}
+              </TableCell>
+              <TableCell>
+                {membership.user.firstName} {membership.user.lastName}
               </TableCell>
               <TableCell>{membership.user.email}</TableCell>
               <TableCell>

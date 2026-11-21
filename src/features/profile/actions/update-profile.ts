@@ -19,7 +19,7 @@ const updateUserSchema = z.object({
     .min(1)
     .max(191)
     .refine((value) => !value.includes(' '), 'Username cannot contain spaces'),
-  avatarUrl: z.url().optional(),
+  avatarUrl: z.url().or(z.literal('')).optional(),
   firstName: z.string().max(191).optional(),
   lastName: z.string().max(191).optional(),
 });
