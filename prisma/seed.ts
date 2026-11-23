@@ -5,11 +5,15 @@ import { prisma } from '@/lib/prisma';
 const users = [
   {
     username: 'admin',
+    firstName: 'Peter',
+    lastName: 'Miller',
     email: 'admin@admin.com',
     emailVerified: true,
   },
   {
     username: 'lukas',
+    firstName: 'Lukas',
+    lastName: 'Korten',
     email: 'mail@lukas-korten.de',
     emailVerified: true,
   },
